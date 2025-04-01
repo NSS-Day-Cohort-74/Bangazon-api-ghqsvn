@@ -181,25 +181,24 @@ class Profile(ViewSet):
             @apiError (404) {String} message  Not found message
             """
             try:
+                # Gets current_user's order, where no payment is yet given
                 open_order = Order.objects.get(customer=current_user, payment_type=None)
-                line_items = OrderProduct.objects.filter(order=open_order)
-                line_items = LineItemSerializer(
-                    line_items, many=True, context={"request": request}
-                )
+                # Gets all order/product relationships associated with customer's open order id
 
+                # Initializes empty dictionary to send in response to client
                 cart = {}
+                # Creates new dictionary key holding serialized data following OrderSerializer pattern
                 cart["order"] = OrderSerializer(
                     open_order, many=False, context={"request": request}
                 ).data
-                cart["order"]["line_items"] = line_items.data
-                cart["order"]["size"] = len(line_items.data)
-
+                # Calculates the size of an order by list containing line_items
+                cart["order"]["size"] = len(cart["order"]["lineitems"])
             except Order.DoesNotExist as ex:
                 return Response(
                     {"message": ex.args[0]}, status=status.HTTP_404_NOT_FOUND
                 )
 
-            return Response(cart["order"])
+            return Response(cart["order"], status=status.HTTP_200_OK)
 
         if request.method == "POST":
             """
