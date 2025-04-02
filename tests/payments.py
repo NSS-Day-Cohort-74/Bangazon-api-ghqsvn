@@ -52,7 +52,13 @@ class PaymentTests(APITestCase):
         """
         self.test_create_payment_type()
         url = "/payment-types/1"
+
+        # test for authorized deletion of payment
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
         response = self.client.delete(url, format="json")
-
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        # test for unauthorized deletion of payment
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + "")
+        response = self.client.delete(url, format="json")
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
