@@ -37,7 +37,7 @@ class Cart(ViewSet):
         line_item.order = open_order
         line_item.save()
 
-        return Response({}, status=status.HTTP_204_NO_CONTENT)
+        return Response(line_item.data, status=status.HTTP_201_CREATED)
 
 
     def destroy(self, request, pk=None):
