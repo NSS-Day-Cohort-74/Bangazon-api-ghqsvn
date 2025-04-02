@@ -83,7 +83,7 @@ class Profile(ViewSet):
             }
         """
         try:
-            current_user = Customer.objects.get(user=request.user.id)
+            current_user = Customer.objects.get(user=request.auth.user)
             current_user.recommends = Recommendation.objects.filter(
                 recommender=current_user
             )
@@ -243,7 +243,6 @@ class Profile(ViewSet):
 
             try:
                 open_order = Order.objects.get(customer=current_user)
-                print(open_order)
             except Order.DoesNotExist as ex:
                 open_order = Order()
                 open_order.created_date = datetime.datetime.now()
@@ -259,7 +258,7 @@ class Profile(ViewSet):
                 line_item, many=False, context={"request": request}
             )
 
-            return Response(line_item_json.data)
+            return Response(line_item_json.data, status=status.HTTP_200_OK)
 
         return Response({}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -311,7 +310,7 @@ class Profile(ViewSet):
                 }
             ]
         """
-        customer = Customer.objects.get(user=request.auth.user)
+        customer = Customer.objects.get(user=request.user.id)
         favorites = Favorite.objects.filter(customer=customer)
 
         serializer = FavoriteSerializer(
