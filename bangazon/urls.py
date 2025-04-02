@@ -22,7 +22,7 @@ router.register(r"profile", Profile, "profile")
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path("", include(router.urls)),
-    path("report/expensiveproducts", report),
+    path("reports/expensiveproducts", report),
     path("register", register_user),
     path("login", login_user),
     path("api-token-auth", obtain_auth_token),
