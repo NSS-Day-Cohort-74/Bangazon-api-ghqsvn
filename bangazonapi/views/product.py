@@ -203,7 +203,7 @@ class Products(ViewSet):
             HTTP/1.1 204 No Content
         """
         try:
-            product = Product.objects.get(pk=pk)
+            product = Product.objects.filter(pk=pk).first()
             product.delete()
 
             return Response({}, status=status.HTTP_204_NO_CONTENT)
