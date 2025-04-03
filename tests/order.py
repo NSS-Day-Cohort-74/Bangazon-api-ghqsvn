@@ -35,12 +35,13 @@ class OrderTests(APITestCase):
         Ensure we can add a product to an order.
         """
         # Add product to order
-        url = "/cart"
+        url = "/my-profile/cart"
         data = { "product_id": 1 }
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+        # breakpoint()
         response = self.client.post(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # Get cart and verify product was added
         url = "/cart"
