@@ -40,6 +40,8 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
             "id",
             "url",
             "created_date",
+            # add purchase_date field to serializer
+            "purchase_date",
             "payment_type",
             "customer",
             "lineitems",
@@ -120,6 +122,8 @@ class Orders(ViewSet):
         order = Order.objects.get(pk=pk, customer=customer)
         payment_type = Payment.objects.get(pk=request.data["payment_type"])
         order.payment_type = payment_type
+        # update purchase_date property on object with datetime.date.today()
+        order.purchase_date = datetime.date.today()
         order.save()
 
         return Response({}, status=status.HTTP_204_NO_CONTENT)
@@ -164,3 +168,4 @@ class Orders(ViewSet):
         json_orders = OrderSerializer(orders, many=True, context={"request": request})
 
         return Response(json_orders.data)
+ 
