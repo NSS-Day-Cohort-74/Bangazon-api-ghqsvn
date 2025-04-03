@@ -31,10 +31,9 @@ class PaymentTests(APITestCase):
         # Add product to order
         url = "/payment-types"
         data = {
-            "merchant_name": "American Express",
-            "account_number": "111-1111-1111",
+            "merchant": "American Express",
+            "acctNumber": "111-1111-1111",
             "expiration_date": "2024-12-31",
-            "create_date": datetime.date.today(),
         }
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
         response = self.client.post(url, data, format="json")
@@ -47,3 +46,19 @@ class PaymentTests(APITestCase):
         self.assertEqual(json_response["create_date"], str(datetime.date.today()))
 
     # TODO: Delete payment type
+    def test_delete_payment_type(self):
+        """
+        Ensure we can delete a payment type
+        """
+        self.test_create_payment_type()
+        url = "/payment-types/1"
+
+        # test for authorized deletion of payment
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
+        response = self.client.delete(url, format="json")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        # test for unauthorized deletion of payment
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + "")
+        response = self.client.delete(url, format="json")
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
