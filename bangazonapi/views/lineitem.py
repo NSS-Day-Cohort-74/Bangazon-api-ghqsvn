@@ -76,8 +76,10 @@ class LineItems(ViewSet):
         """
         try:
             customer = Customer.objects.get(user=request.auth.user)
-            order_product = OrderProduct.objects.get(pk=pk, order__customer=customer)
-
+            product = Product.objects.get(pk=pk)
+            order_product = OrderProduct.objects.filter(product=product, order__customer=customer)
+            order_product.delete()
+            print(order_product, customer)
             return Response({}, status=status.HTTP_204_NO_CONTENT)
 
         except OrderProduct.DoesNotExist as ex:
