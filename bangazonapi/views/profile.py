@@ -242,7 +242,10 @@ class Profile(ViewSet):
             """
 
             try:
-                open_order = Order.objects.get(customer=current_user)
+
+                open_order = Order.objects.get(customer=current_user, payment_type__isnull=True)
+                print(open_order)
+
             except Order.DoesNotExist as ex:
                 open_order = Order()
                 open_order.created_date = datetime.datetime.now()
@@ -258,7 +261,9 @@ class Profile(ViewSet):
                 line_item, many=False, context={"request": request}
             )
 
-            return Response(line_item_json.data, status=status.HTTP_200_OK)
+
+            return Response(line_item_json.data, status=status.HTTP_201_CREATED)
+
 
         return Response({}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
