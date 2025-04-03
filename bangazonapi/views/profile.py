@@ -244,7 +244,7 @@ class Profile(ViewSet):
             try:
 
                 open_order = Order.objects.get(customer=current_user, payment_type__isnull=True)
-                print(open_order)
+
 
             except Order.DoesNotExist as ex:
                 open_order = Order()
