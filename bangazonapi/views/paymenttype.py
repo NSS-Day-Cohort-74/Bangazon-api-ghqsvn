@@ -81,10 +81,11 @@ class Payments(ViewSet):
         """Handle GET requests to payment type resource"""
         payment_types = Payment.objects.all()
 
-        customer_id = self.request.query_params.get('customer', None)
+        current_user = Customer.objects.get(user=request.auth.user)
+        customer_id = current_user
 
         if customer_id is not None:
-            payment_types = payment_types.filter(customer__id=customer_id)
+            payment_types = payment_types.filter(customer__id=customer_id.user_id)
 
         serializer = PaymentSerializer(
             payment_types, many=True, context={'request': request})
