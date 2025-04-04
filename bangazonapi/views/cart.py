@@ -3,13 +3,48 @@ import datetime
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status
-from bangazonapi.models import Order, Customer, Product, OrderProduct
+from rest_framework.decorators import action
+from bangazonapi.models import Order, Customer, Product, OrderProduct, Payment
 from .product import ProductSerializer
 from .order import OrderSerializer
 
 
+
 class Cart(ViewSet):
     """Shopping cart for Bangazon eCommerce"""
+    @action(methods=['post'], detail=False)
+    def  complete(self,request):
+
+        current_user = Customer.objects.get(user = request.auth.user)
+
+        try:
+
+            payment_type_id = request.data.get("payment_type_id")
+            print("Payment Type ID from request:", payment_type_id )
+
+            
+            open_order = Order.objects.filter(
+                    customer = current_user,
+                    payment_type__isnull = True
+                ).first()
+            if not open_order:
+                return Response({'message': 'No open order found'}, status=status.HTTP_400_BAD_REQUEST)
+            payment_type = Payment.objects.get(pk=payment_type_id)
+            open_order.payment_type = payment_type
+            open_order.save()
+
+            new_order = Order.objects.create(
+            customer=current_user,
+            created_date=datetime.datetime.now(),
+            payment_type=None
+            )
+            return Response({
+                'message': 'Order completed',
+                'completed_order_id': open_order.id,
+                'new_order_id': new_order.id
+            }, status=status.HTTP_200_OK)
+        except Exception as ex:
+            return Response(ex, status=status.HTTP_400_BAD_REQUEST)
 
     def create(self, request):
         """
