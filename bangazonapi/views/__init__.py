@@ -1,7 +1,7 @@
 from .register import register_user
 from .register import login_user
+from .paymenttype import Payments, PaymentSerializer
 from .order import Orders
-from .paymenttype import Payments
 from .product import Products
 from .cart import Cart
 from .profile import Profile
