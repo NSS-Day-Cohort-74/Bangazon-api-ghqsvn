@@ -262,12 +262,14 @@ class Products(ViewSet):
         products = Product.objects.all()
 
         # Support filtering by category and/or quantity
-        category = self.request.query_params.get("category", None)
+        category_id = self.request.query_params.get("category", None)
         quantity = self.request.query_params.get("quantity", None)
         order = self.request.query_params.get("order_by", None)
         direction = self.request.query_params.get("direction", None)
         name = self.request.query_params.get("name", None)
         number_sold = self.request.query_params.get("number_sold", None)
+        min_price = self.request.query_params.get("min_price", None)
+        product_location = self.request.query_params.get("location", None)
 
         if order is not None:
             order_filter = order
@@ -280,8 +282,8 @@ class Products(ViewSet):
         if name is not None:
             products = products.filter(name__icontains=name)
 
-        if category is not None:
-            products = products.filter(category__id=category)
+        if category_id is not None:
+            products = products.filter(category__id=category_id)
 
         if quantity is not None:
             products = products.order_by("-created_date")[: int(quantity)]
@@ -294,11 +296,15 @@ class Products(ViewSet):
                 return False
 
             products = filter(sold_filter, products)
+        if min_price is not None:
+            products = products.filter(price__gte=min_price)
+        if product_location is not None:
+            products = products.filter(location=product_location)
 
         serializer = ProductSerializer(
             products, many=True, context={"request": request}
         )
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(methods=["post"], detail=True)
     def recommend(self, request, pk=None):
@@ -319,11 +325,5 @@ class Products(ViewSet):
     @action(methods=["post"], detail=True)
     def add_to_order(self, request, pk=None):
         """Add product to order"""
-        if request.method == "GET":
-            pass
-        elif request.method == "PUT":
-            pass
-        elif request.method == "POST":
-            pass
-        elif request.method == "DELETE":
+        if request.method == "POST":
             pass
