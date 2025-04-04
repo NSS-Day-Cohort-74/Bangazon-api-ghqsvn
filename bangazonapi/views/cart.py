@@ -31,6 +31,7 @@ class Cart(ViewSet):
                 return Response({'message': 'No open order found'}, status=status.HTTP_400_BAD_REQUEST)
             payment_type = Payment.objects.get(pk=payment_type_id)
             open_order.payment_type = payment_type
+            open_order.purchase_date = datetime.date.today()
             open_order.save()
 
             new_order = Order.objects.create(

@@ -9,4 +9,4 @@ class Order(models.Model):
     payment_type = models.ForeignKey(Payment, on_delete=models.DO_NOTHING, null=True)
     created_date = models.DateField(default="0000-00-00",)
     # Add new DateField, default="0000-00-00", call it purchase_date
-    purchase_date = models.DateField(default="0000-00-00", null=True)
+    purchase_date = models.DateField(null=True, blank=True)
