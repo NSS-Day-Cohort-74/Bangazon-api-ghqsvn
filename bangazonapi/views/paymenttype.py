@@ -45,8 +45,8 @@ class Payments(ViewSet):
             Response -- JSON serialized payment instance
         """
         new_payment = Payment()
-        new_payment.merchant_name = request.data["merchant"]
-        new_payment.account_number = request.data["acctNumber"]
+        new_payment.merchant_name = request.data["merchant_name"]
+        new_payment.account_number = request.data["account_number"]
         new_payment.expiration_date = request.data["expiration_date"]
         customer = Customer.objects.get(user=request.auth.user)
         new_payment.customer = customer
@@ -94,10 +94,10 @@ class Payments(ViewSet):
         try:
             payment_types = Payment.objects.all()
             current_user = Customer.objects.get(user=request.auth.user)
-            customer_id = current_user
+            customer = current_user
 
-            if customer_id is not None:
-                payment_types = payment_types.filter(customer__id=customer_id.user_id)
+            if customer is not None:
+                payment_types = payment_types.filter(customer__id=customer.id)
 
                 serializer = PaymentSerializer(
                     payment_types, many=True, context={"request": request}
