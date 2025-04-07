@@ -31,8 +31,8 @@ class PaymentTests(APITestCase):
         # Add product to order
         url = "/payment-types"
         data = {
-            "merchant": "American Express",
-            "acctNumber": "111-1111-1111",
+            "merchant_name": "American Express",
+            "account_number": "111-1111-1111",
             "expiration_date": "2024-12-31",
         }
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
