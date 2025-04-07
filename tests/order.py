@@ -49,11 +49,11 @@ class OrderTests(APITestCase):
         """
         # Add product to order
 
-        url = "profile/cart"
+        url = "/profile/cart"
         data = {"product_id": 1}
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
         response = self.client.post(url, data, format="json")
-
+        
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -76,7 +76,32 @@ class OrderTests(APITestCase):
         self.test_add_product_to_order()
 
         # Remove product from cart
-        url = "profile/cart/1"
+        url = "/lineitems/1"
+        
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
+        response = self.client.delete(url, None, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        # Get cart and verify product was removed
+        url = "/profile/cart"
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
+        response = self.client.get(url, None, format="json")
+        json_response = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(json_response["size"], 0)
+        self.assertEqual(len(json_response["lineitems"]), 0)
+        
+    
+    def test_remove_order(self):
+        """
+        Ensure we can remove a product from an order.
+        """
+        # Add product
+        self.test_add_product_to_order()
+
+        # Remove product from cart
+        url = "/profile/cart"
         data = {"product_id": 1}
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
         response = self.client.delete(url, data, format="json")
@@ -84,14 +109,14 @@ class OrderTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
         # Get cart and verify product was removed
-        url = "profile/cart"
+        url = "/profile/cart"
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
         response = self.client.get(url, None, format="json")
-        json_response = json.loads(response.content)
-
+        
+        # json_response = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        self.assertEqual(json_response["size"], 0)
-        self.assertEqual(len(json_response["lineitems"]), 0)
+        # self.assertEqual(json_response["size"], 0)
+        # self.assertEqual(len(json_response["lineitems"]), 0)
 
     # TODO: Complete order by adding payment type
 
