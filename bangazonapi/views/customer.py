@@ -13,7 +13,7 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
         url = serializers.HyperlinkedIdentityField(
             view_name='customer', lookup_field='id'
         )
-        fields = ('id', 'url', 'user', 'phone_number', 'address')
+        fields = ('id', 'url', 'user', 'phone_number', 'address', 'store_name')
         depth = 1
 
 

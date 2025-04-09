@@ -5,7 +5,8 @@
     "fields": {
         "user": 5,
         "phone_number": "555-1212",
-        "address": "100 Infinity Way"
+        "address": "100 Infinity Way",
+        "store_name": "Cool store"
     }
 },
 {
