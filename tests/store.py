@@ -36,6 +36,27 @@ class StoreTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(json_response["name"], "Sporting Goods")
 
+        url = "/products"
+        data = {
+            "name": "Kite",
+            "price": 14.99,
+            "quantity": 60,
+            "description": "It flies high",
+            "category_id": 1,
+            "location": "Pittsburgh",
+        }
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
+        response = self.client.post(url, data, format="json")
+        json_response = json.loads(response.content)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(json_response["name"], "Kite")
+        self.assertEqual(json_response["price"], 14.99)
+        self.assertEqual(json_response["quantity"], 60)
+        self.assertEqual(json_response["description"], "It flies high")
+        self.assertEqual(json_response["location"], "Pittsburgh")
+
+
     def test_create_store(self):
         """
         Ensure we can create a new product.
@@ -56,3 +77,18 @@ class StoreTests(APITestCase):
         self.assertEqual(json_response["name"], "Best Store")
         self.assertEqual(json_response["description"], "Only great things here")
         self.assertEqual(json_response["id"], 1)
+
+
+    def test_get_store(self):
+        """
+        Ensure we can create a store
+        """
+        self.test_create_store()
+            
+        url = "/profile/store"
+
+        response = self.client.get(url, None, format="json")
+        json_response = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(json_response), 4)
+        self.assertEqual(json_response["products"][0]["name"], "Kite")
