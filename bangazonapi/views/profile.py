@@ -444,7 +444,15 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     user = UserSerializer(many=False)
     recommends = RecommenderSerializer(many=True)
+    store = serializers.SerializerMethodField()
 
+    def get_store(self, pbj):
+        store = {}
+        store["name"] = pbj.store_name
+        store["description"] = pbj.store_description
+        store["id"] = pbj.id
+
+        return store
     class Meta:
         model = Customer
         fields = (
@@ -455,6 +463,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "address",
             "payment_types",
             "recommends",
+            "store",
         )
         depth = 1
 
