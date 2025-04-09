@@ -8,6 +8,7 @@
 from bangazonapi.models.customer import Customer
 from bangazonapi.models.product import Product
 from bangazonapi.views.product import ProductSerializer
+from bangazonapi.views.profile import CustomerSerializer
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status
@@ -26,8 +27,10 @@ class Store(ViewSet):
                     store_products,
                     many=True,
                 )
+                serialized_customer = CustomerSerializer(customer, many=False)
                 store = {
                     "id": customer.id,
+                    "seller": serialized_customer.data,
                     "name": customer.store_name,
                     "description": customer.store_description,
                     "products": serializered_store_products.data,
@@ -41,5 +44,33 @@ class Store(ViewSet):
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                  )
         return Response(stores, status=status.HTTP_200_OK) 
+    def retrieve(self, request,pk):
+        customer = Customer.objects.get(pk=pk)
+
+
+        try:
+                store_products = Product.objects.filter(customer=customer)
+                    
+                serializered_store_products = ProductSerializer(
+                    store_products,
+                    many=True,
+                    context={"request": request}
+                )
+                serialized_customer = CustomerSerializer(customer, many=False)
+                store = {
+                    "id": customer.id,
+                    "seller": serialized_customer.data,
+                    "name": customer.store_name,
+                    "description": customer.store_description,
+                    "products": serializered_store_products.data,
+                }
+        except Exception as ex:
+                return Response({
+                    "details": "Problem getting store",
+                    "error": ex,
+                    },
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                 )
+        return Response(store, status=status.HTTP_200_OK) 
 
 
