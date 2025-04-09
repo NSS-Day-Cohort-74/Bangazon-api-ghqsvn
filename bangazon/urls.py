@@ -25,6 +25,7 @@ router.register(r"stores", Store, "store")
 urlpatterns = [
     path("", include(router.urls)),
     path("reports/expensiveproducts", report),
+    path("reports/inexpensiveproducts", report),
     path("register", register_user),
     path("login", login_user),
     path("api-token-auth", obtain_auth_token),
