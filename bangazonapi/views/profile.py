@@ -1,5 +1,6 @@
 """View module for handling requests about customer profiles"""
 
+import json
 import datetime
 from django.http import HttpResponseServerError
 from django.contrib.auth.models import User
@@ -243,7 +244,9 @@ class Profile(ViewSet):
 
             try:
 
-                open_order = Order.objects.get(customer=current_user, payment_type__isnull=True)
+                open_order = Order.objects.get(
+                    customer=current_user, payment_type__isnull=True
+                )
 
             except Order.DoesNotExist as ex:
                 open_order = Order()
@@ -260,9 +263,7 @@ class Profile(ViewSet):
                 line_item, many=False, context={"request": request}
             )
 
-
             return Response(line_item_json.data, status=status.HTTP_201_CREATED)
-
 
         return Response({}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -321,6 +322,51 @@ class Profile(ViewSet):
             favorites, many=True, context={"request": request}
         )
         return Response(serializer.data)
+
+    @action(methods=["post", "get"], detail=False)
+    def store(self, request):
+        # Gets authenticated user's customer profile.
+        customer = Customer.objects.get(user=request.auth.user)
+        # Is the authenticated user making a POST request
+        if request.method == "POST":
+            try:
+                # Is request body data good?
+                customer.store_name = request.data["name"]
+                customer.store_description = request.data["description"]
+                customer.save()
+                # If request body data is good, send back the created object to the client as JSON.
+                return Response(
+                    {
+                        "id": customer.id,
+                        "name": customer.store_name,
+                        "description": customer.store_description,
+                    },
+                    status=status.HTTP_201_CREATED,
+                )
+            # If request body data is not good, send an error to the client explaining what went wrong
+            except Exception as ex:
+                return Response(
+                    {"details": f"Do better. {ex}"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        # Is the client making a GET request for their store data?
+        if request.method == "GET":
+            # Filters all products by authenticated user's customer profile
+            store_products = Product.objects.filter(customer=customer)
+            serializered_store_products = ProductSerializer(
+                store_products,
+                many=True,
+            )
+            try:
+                store = {
+                    "id": customer.id,
+                    "name": customer.store_name,
+                    "description": customer.store_description,
+                    "products": serializered_store_products.data,
+                }
+                return Response(store, status=status.HTTP_200_OK)
+            except Exception as ex:
+                return Response({"details": ex}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LineItemSerializer(serializers.HyperlinkedModelSerializer):
