@@ -4,7 +4,23 @@ from django.conf.urls.static import static
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 from bangazonapi.models import *
-from bangazonapi.views import Products, ProductCategories, LineItems, Customers, Users, Orders, Cart, Payments, Profile, report, register_user, login_user, Store
+from bangazonapi.views import (
+    Products,
+    ProductCategories,
+    LineItems,
+    Customers,
+    Users,
+    Orders,
+    Cart,
+    Payments,
+    Profile,
+    report,
+    ireport,
+    ocreport,
+    register_user,
+    login_user,
+    Store,
+)
 
 # pylint: disable=invalid-name
 router = routers.DefaultRouter(trailing_slash=False)
@@ -25,6 +41,8 @@ router.register(r"stores", Store, "store")
 urlpatterns = [
     path("", include(router.urls)),
     path("reports/expensiveproducts", report),
+    path("reports/inexpensiveproducts", ireport),
+    path("reports/orders", ocreport),
     path("register", register_user),
     path("login", login_user),
     path("api-token-auth", obtain_auth_token),
