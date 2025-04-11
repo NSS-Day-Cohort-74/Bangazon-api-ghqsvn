@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+      img {
+        max-width: 100px;
+        height: auto;
+      }
+      .item-details {
+        display: flex;
+        align-items: center;
+      }
+      .item-image {
+        margin-right: 10px;
+      }
+      .item-description {
+        max-width: 300px; 
+      }
+
+    </style>
+  </head>
+  <body>
+    <h1>{{ heading }}</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Item Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Quantity Available</th>
+          <th>Number Sold</th>
+          <th>Created Date</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in products %}
+        <tr>
+          <td class="item-image">
+            <img src="{{ item.image_path }}" alt="{{ item.name }}" />
+          </td>
+          <td>{{ item.name }}</td>
+          <td class="item-description">{{ item.description }}</td>
+          <td>${{ item.price }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.number_sold }}</td>
+          <td>{{ item.created_date }}</td>
+          <td>{{ item.location }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
