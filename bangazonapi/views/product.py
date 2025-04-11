@@ -9,14 +9,14 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
-from bangazonapi.models import Product, Customer, ProductCategory
+from bangazonapi.models import Product, Customer, ProductCategory, Like
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class ProductSerializer(serializers.ModelSerializer):
     """JSON serializer for products"""
-
+    is_liked = serializers.SerializerMethodField()
     class Meta:
         model = Product
         fields = (
@@ -31,9 +31,17 @@ class ProductSerializer(serializers.ModelSerializer):
             "image_path",
             "average_rating",
             "can_be_rated",
+            "is_liked"
         )
         depth = 1
 
+            
+
+    def get_is_liked(self, obj):
+        request = self.context.get('request')
+        if request:
+            return obj.is_liked(request, obj.id)
+        return False
 
 class Products(ViewSet):
     """Request handlers for Products in the Bangazon Platform"""
@@ -167,8 +175,11 @@ class Products(ViewSet):
         """
         try:
             product = Product.objects.get(pk=pk)
+            is_liked = product.is_liked(request, pk)
             serializer = ProductSerializer(product, context={"request": request})
-            return Response(serializer.data)
+            response_data = serializer.data
+            response_data["is_liked"] = is_liked
+            return Response(response_data)
         except Exception as ex:
             return HttpResponseServerError(ex)
 
@@ -260,8 +271,10 @@ class Products(ViewSet):
                 }
             ]
         """
+        
         products = Product.objects.all()
-
+         
+            
         # Support filtering by category and/or quantity
         category_id = self.request.query_params.get("category", None)
         quantity = self.request.query_params.get("quantity", None)
@@ -350,3 +363,43 @@ class Products(ViewSet):
         """Add product to order"""
         if request.method == "POST":
             pass
+    
+    @action(methods=["post", "delete"], detail=True)
+    def like(self, request, pk=True):
+        
+        customer = Customer.objects.get(user=request.auth.user)
+        product = Product.objects.get(pk=pk)
+        
+        
+
+        try:
+            if Like.objects.filter(customer=customer, product=product).exists():
+                Like.objects.get(customer=customer, product=product).delete()
+                return Response("deleted", status=status.HTTP_204_NO_CONTENT)
+            
+            
+            like = Like()
+            like.customer = Customer.objects.filter(user=request.auth.user).first()
+            like.product = Product.objects.filter(pk=pk).first()
+            like.save()
+            return Response("created", status=status.HTTP_201_CREATED)
+            
+        except Exception as ex:
+            return Response({"error":ex}, status=status.HTTP_404_NOT_FOUND)
+
+        
+    @action(methods=['get'], detail=False)
+    def liked(self, request):
+
+        products = Product.objects.all()
+        
+        serializer = ProductSerializer(
+            products, many=True, context={"request": request}
+        )
+
+        response_data= serializer.data
+        filtered_data = [product for product in response_data if product["is_liked"]]
+
+        return Response(filtered_data, status=status.HTTP_200_OK)
+
+    
