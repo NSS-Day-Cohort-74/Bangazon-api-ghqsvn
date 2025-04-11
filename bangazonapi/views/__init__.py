@@ -2,7 +2,7 @@ from .register import register_user
 from .register import login_user
 from .paymenttype import Payments, PaymentSerializer
 from .order import Orders
-from .product import Products
+from .product import Products, ProductSerializer
 from .cart import Cart
 from .profile import Profile
 from .productcategory import ProductCategories
