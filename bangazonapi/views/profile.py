@@ -325,6 +325,60 @@ class Profile(ViewSet):
             favorites, many=True, context={"request": request}
         )
         return Response(serializer.data)
+    
+    @action(methods=["get", "post"], detail=False)
+    def favorite(self, request):
+        """
+        Endpoint responsible for creating new customer-to-store relationships
+        Args:
+            request (dict): The request body sent from the client containing data required for 
+            creating these relationships. 
+            pk (integer): The primary key used to find a unique collection of data.
+            In this case, we are searching for the unique id of a customer acting as a seller.
+
+            Defaults to None.
+
+        Returns:
+            Response Message and Status Code: Used to enlighten the user about the status of the 
+            favoriting process, whether it succeeded or failed. 
+        """
+
+        # Gets customer making request
+        favoring_customer = Customer.objects.get(user=request.auth.user)
+
+        # Gets customer acting as seller to be favorited
+        seller = Customer.objects.get(pk=int(request.data["store_id"]))
+        
+
+        try:
+            # Does the relationship between these two customers already exist?
+            existing_relationship = Favorite.objects.filter(customer=favoring_customer, seller=seller).exists()
+            
+            if existing_relationship:
+                return Response("Failure!: This relationship already exists", status=status.HTTP_409_CONFLICT)
+            
+            # Creates a new instance of a favorite object, this will hold data necessary for creating relationships
+            favorite_relationship = Favorite()
+
+            # Add the customer that is favoriting the store to the relationship
+            favorite_relationship.customer = favoring_customer
+
+            # Add the customer-seller that is being favorited to the relationship
+            favorite_relationship.seller = seller
+
+            # Create the relationship in the database
+            favorite_relationship.save()
+
+            # Return a response to the client notifying them of a successful creation process
+            return Response("Success!: You have successfully favorited this store!", status=status.HTTP_201_CREATED)
+        except Exception as ex:
+        # Return a response to the client notifying them of a failure during the creation process
+            return Response(f"Failure!: There was failure creating this relationship: {ex.args[0]}", status=status.HTTP_400_BAD_REQUEST)
+
+    
+
+
+        
 
     @action(methods=["post", "get"], detail=False)
     def store(self, request):
@@ -450,6 +504,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     recommends = RecommenderSerializer(many=True)
     recommended = RecommenderSerializer(many=True)
     store = serializers.SerializerMethodField()
+    seller = serializers.SerializerMethodField()
 
     def get_store(self, pbj):
         store = {}
