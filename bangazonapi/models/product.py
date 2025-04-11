@@ -41,6 +41,19 @@ class Product(SafeDeleteModel):
         blank=True,
     )
 
+    
+    def is_liked(self, request, pk):
+        from .like import Like
+        # is the product liked?
+        
+        customer = Customer.objects.get(user=request.auth.user)
+        is_liked = Like.objects.filter(product_id=pk, customer=customer).exists()
+        if is_liked:
+            return True
+        else:
+            return False
+
+
     @property
     def number_sold(self):
         """number_sold property of a product
@@ -86,3 +99,5 @@ class Product(SafeDeleteModel):
     class Meta:
         verbose_name = "product"
         verbose_name_plural = "products"
+
+
