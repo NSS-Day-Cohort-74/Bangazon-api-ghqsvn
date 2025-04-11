@@ -4,7 +4,22 @@ from django.conf.urls.static import static
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 from bangazonapi.models import *
-from bangazonapi.views import Products, ProductCategories, LineItems, Customers, Users, Orders, Cart, Payments, Profile, report, register_user, login_user, Store
+from bangazonapi.views import (
+    Products,
+    ProductCategories,
+    LineItems,
+    Customers,
+    Users,
+    Orders,
+    Cart,
+    Payments,
+    Profile,
+    Store,
+    report,
+    register_user,
+    login_user,
+    report_login,
+)
 
 # pylint: disable=invalid-name
 router = routers.DefaultRouter(trailing_slash=False)
@@ -24,10 +39,18 @@ router.register(r"stores", Store, "store")
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path("", include(router.urls)),
-    path("reports/expensiveproducts", report),
-    path("reports/inexpensiveproducts", report),
-    path("register", register_user),
-    path("login", login_user),
+    path(
+        "reports/",
+        include(
+            [
+                path("login", report_login, name="reports_login"),
+                path("expensiveproducts", report, name="expensive_report"),
+                path("inexpensiveproducts", report, name="inexpensive_report"),
+            ]
+        ),
+    ),
+    path("register", register_user, name="register"),
+    path("login", login_user, name="login"),
     path("api-token-auth", obtain_auth_token),
     path("api-auth", include("rest_framework.urls", namespace="rest_framework")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,7 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from bangazonapi.models.product import Product
 from django.shortcuts import render
 
+from django.urls import reverse
 
+
+@login_required(login_url="reports_login")
 def report(request):
     if request.path == "/reports/expensiveproducts":
         products = Product.objects.filter(price__gte=1000)
@@ -19,4 +23,3 @@ def report(request):
             "pricey_products": products,
         }
         return render(request, "report.html", context)
-
