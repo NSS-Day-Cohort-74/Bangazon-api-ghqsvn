@@ -311,17 +311,39 @@ class Products(ViewSet):
     def recommend(self, request, pk=None):
         """Recommend products to other users"""
 
-        if request.method == "POST":
-            rec = Recommendation()
-            rec.recommender = Customer.objects.get(user=request.auth.user)
-            rec.customer = Customer.objects.get(user__id=request.data["recipient"])
-            rec.product = Product.objects.get(pk=pk)
+        if request.method != "POST":
+            return Response(None, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-            rec.save()
+        try:
+            recipient_customer = Customer.objects.get(
+                user__username=request.data["recipient"]
+            )
+        except Customer.DoesNotExist:
+            return Response("Recipient not found", status=status.HTTP_404_NOT_FOUND)
 
-            return Response(None, status=status.HTTP_204_NO_CONTENT)
+        try:
+            product = Product.objects.get(pk=pk)
+        except Product.DoesNotExist:
+            return Response("Product not found", status=status.HTTP_404_NOT_FOUND)
 
-        return Response(None, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        recommender_customer = Customer.objects.get(user=request.auth.user)
+
+        if Recommendation.objects.filter(
+            recommender=recommender_customer,
+            customer=recipient_customer,
+            product=product,
+        ).exists():
+            return Response(
+                "You have already recommended this product to this user",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        rec = Recommendation()
+        rec.recommender = recommender_customer
+        rec.customer = recipient_customer
+        rec.product = product
+        rec.save()
+        return Response(None, status=status.HTTP_201_CREATED)
 
     @action(methods=["post"], detail=True)
     def add_to_order(self, request, pk=None):

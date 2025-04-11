@@ -19,6 +19,8 @@ from bangazonapi.views import (
     register_user,
     login_user,
     report_login,
+    report,
+ 
 )
 
 # pylint: disable=invalid-name
@@ -46,6 +48,7 @@ urlpatterns = [
                 path("login", report_login, name="reports_login"),
                 path("expensiveproducts", report, name="expensive_report"),
                 path("inexpensiveproducts", report, name="inexpensive_report"),
+                path("orders", report, name="order_report"),
             ]
         ),
     ),

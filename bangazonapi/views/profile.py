@@ -88,6 +88,9 @@ class Profile(ViewSet):
             current_user.recommends = Recommendation.objects.filter(
                 recommender=current_user
             )
+            current_user.recommended = Recommendation.objects.filter(
+                customer=current_user
+            )
 
             serializer = ProfileSerializer(
                 current_user, many=False, context={"request": request}
@@ -418,6 +421,7 @@ class ProfileProductSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
+            "image_path",
         )
 
 
@@ -444,6 +448,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     user = UserSerializer(many=False)
     recommends = RecommenderSerializer(many=True)
+    recommended = RecommenderSerializer(many=True)
     store = serializers.SerializerMethodField()
 
     def get_store(self, pbj):
@@ -453,6 +458,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         store["id"] = pbj.id
 
         return store
+
     class Meta:
         model = Customer
         fields = (
@@ -463,6 +469,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "address",
             "payment_types",
             "recommends",
+            "recommended",
             "store",
         )
         depth = 1
