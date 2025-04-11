@@ -19,6 +19,7 @@ def report(request):
             "pricey_products": serialized_products.data,
         }
         return render(request, "report.html", context)
+
     elif request.path == "/reports/inexpensiveproducts":
         products = Product.objects.filter(price__lte=999).order_by("price")
         serialized_products = ProductSerializer(products, many=True)
@@ -28,8 +29,8 @@ def report(request):
             "pricey_products": serialized_products.data,
         }
         return render(request, "report.html", context)
-    elif request.path == "/reports/order":
 
+    elif "/reports/order" in request.path:
 
         # Check the URL parameter 'status'
         status = request.GET.get(
