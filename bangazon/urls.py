@@ -14,12 +14,13 @@ from bangazonapi.views import (
     Cart,
     Payments,
     Profile,
+    Store,
     report,
-    ireport,
-    ocreport,
     register_user,
     login_user,
-    Store,
+    report_login,
+    report,
+ 
 )
 
 # pylint: disable=invalid-name
@@ -40,11 +41,19 @@ router.register(r"stores", Store, "store")
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path("", include(router.urls)),
-    path("reports/expensiveproducts", report),
-    path("reports/inexpensiveproducts", ireport),
-    path("reports/orders", ocreport),
-    path("register", register_user),
-    path("login", login_user),
+    path(
+        "reports/",
+        include(
+            [
+                path("login", report_login, name="reports_login"),
+                path("expensiveproducts", report, name="expensive_report"),
+                path("inexpensiveproducts", report, name="inexpensive_report"),
+                path("orders", report, name="order_report"),
+            ]
+        ),
+    ),
+    path("register", register_user, name="register"),
+    path("login", login_user, name="login"),
     path("api-token-auth", obtain_auth_token),
     path("api-auth", include("rest_framework.urls", namespace="rest_framework")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

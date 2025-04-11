@@ -1,0 +1,31 @@
+<!-- myapp/templates/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="login-container">
+      <form method="POST" action="{% url 'reports_login' %}">
+        {% csrf_token %}
+        <h2>Login</h2>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+        <!-- Add this hidden field to capture the next parameter -->
+        {% if request.GET.next %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}" />
+        {% endif %}
+
+        <button type="submit">Login</button>
+      </form>
+      {% if error_message %}
+      <div style="color: red">{{ error_message }}</div>
+      {% endif %}
+    </div>
+  </body>
+</html>
