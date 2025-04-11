@@ -380,23 +380,4 @@ class Products(ViewSet):
 
         return Response(filtered_data, status=status.HTTP_200_OK)
 
-
-        # try:
-        #     if request.method == "POST":
-        #         like = Like()
-        #         like.customer = Customer.objects.filter(user=request.auth.user).first()
-        #         like.product = Product.objects.filter(pk=pk).first()
-        #         like.save()
-        #         return Response("created", status=status.HTTP_201_CREATED)
-            
-        #     elif request.method == "DELETE":
-        #         customer = Customer.objects.get(user=request.auth.user)
-        #         product = Product.objects.get(pk=pk)
-        #         like = Like.objects.get(customer=customer, product=product)
-
-        #         like.delete()
-        #         return Response("deleted", status=status.HTTP_204_NO_CONTENT)
-        # except Exception as ex:
-        #     return Response({"error": ex}, status=status.HTTP_404_NOT_FOUND)
-        
     
