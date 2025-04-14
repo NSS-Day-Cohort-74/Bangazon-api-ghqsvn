@@ -115,12 +115,14 @@ class OrderTests(APITestCase):
         """
         Ensure that a product cannot be added to a closed order.
         """
+        # add product to users order
         url = "/profile/cart"
         data = {"product_id": 1}
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+        # create new payment type for user
         url = "/payment-types"
         data = {
             "merchant_name": "Visa",
@@ -132,22 +134,25 @@ class OrderTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         payment_type_id = json.loads(response.content)["id"]
 
+        # Complete order
         url = "/cart/complete"
         data = {"payment_type_id": payment_type_id}
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+        # create new cart
         url = "/profile/cart"
         data = {"product_id": 1}
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test_add_product_to_order_validates_correct_order(self):
+    def test_add_product_to_correct_order(self):
         """
         Ensure that a product is added to the correct order.
         """
+        # Create new user
         url = "/register"
         data = {
             "username": "john",
@@ -162,29 +167,35 @@ class OrderTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         user_two_token = json.loads(response.content)["token"]
 
+        # add product to user 1 cart
         url = "/profile/cart"
         data = {"product_id": 1}
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+        # add product to user 2 cart
         self.client.credentials(HTTP_AUTHORIZATION="Token " + user_two_token)
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+        # get user 1 cart
         url = "/cart"
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
         response = self.client.get(url, None, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        steve_cart = json.loads(response.content)
-        self.assertEqual(steve_cart["size"], 1)
-        self.assertEqual(len(steve_cart["lineitems"]), 1)
+        user_one_cart = json.loads(response.content)
+        # validate item added to user 1 cart
+        self.assertEqual(user_one_cart["size"], 1)
+        self.assertEqual(len(user_one_cart["lineitems"]), 1)
 
+        # get user 2 cart
         self.client.credentials(HTTP_AUTHORIZATION="Token " + user_two_token)
         response = self.client.get(url, None, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        john_cart = json.loads(response.content)
-        self.assertEqual(john_cart["size"], 1)
-        self.assertEqual(len(john_cart["lineitems"]), 1)
+        # validate item added to user 2 cart
+        user_two_cart = json.loads(response.content)
+        self.assertEqual(user_two_cart["size"], 1)
+        self.assertEqual(len(user_two_cart["lineitems"]), 1)
 
     # TODO: Complete order by adding payment type
