@@ -375,11 +375,6 @@ class Profile(ViewSet):
         # Return a response to the client notifying them of a failure during the creation process
             return Response(f"Failure!: There was failure creating this relationship: {ex.args[0]}", status=status.HTTP_400_BAD_REQUEST)
 
-    
-
-
-        
-
     @action(methods=["post", "get"], detail=False)
     def store(self, request):
         # Gets authenticated user's customer profile.
@@ -504,7 +499,25 @@ class ProfileSerializer(serializers.ModelSerializer):
     recommends = RecommenderSerializer(many=True)
     recommended = RecommenderSerializer(many=True)
     store = serializers.SerializerMethodField()
-    seller = serializers.SerializerMethodField()
+    favorites = serializers.SerializerMethodField()
+
+    def get_favorites(self, obj):
+        # Finds the customer who is making the request for their profile
+        customer = Customer.objects.get(user=self.context["request"].user)
+        try:
+            # Filters the customer-to-store favorite relationships based on the requesting customer
+            favorites = Favorite.objects.filter(customer=customer)
+
+            # Serialize the list of this customer's favorite stores
+            serializer = FavoriteSerializer(favorites, many=True, context={"request": self.context["request"]})
+
+            # Return the serialized list to the parent serializer.
+            return serializer.data
+        # If a customer does not any favorite stores, this field will be an empty initialized list
+        except Exception as ex:
+            # This is exception will only be thrown if there is a major error in the serialization process
+            return f'There has been an issue serializing this data: {ex.args[0]}'
+            
 
     def get_store(self, pbj):
         store = {}
@@ -526,6 +539,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "recommends",
             "recommended",
             "store",
+            "favorites",
         )
         depth = 1
 
