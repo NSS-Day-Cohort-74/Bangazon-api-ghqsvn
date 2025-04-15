@@ -97,6 +97,34 @@ class Cart(ViewSet):
         line_item.delete()
 
         return Response({}, status=status.HTTP_204_NO_CONTENT)
+    
+    @action(methods=['delete'], detail=False)
+    def delete_all(self, request):
+        """Delete all products from the current user's open cart"""
+        current_user = Customer.objects.get(user=request.auth.user)
+
+        try:
+            open_order = Order.objects.filter(
+                customer=current_user,
+                payment_type__isnull=True
+            ).first()
+
+            if not open_order:
+                return Response({'message': 'No open order found'}, status=status.HTTP_404_NOT_FOUND)
+
+            # Delete all OrderProduct records linked to this order
+            OrderProduct.objects.filter(order=open_order).delete()
+
+            # Optionally create a new empty order (optional, but keeps frontend happy)
+            open_order.created_date = datetime.datetime.now()
+            open_order.save()
+
+            return Response({'message': 'All items deleted from cart'}, status=status.HTTP_204_NO_CONTENT)
+
+        except Exception as ex:
+            return Response({'error': str(ex)}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
     def list(self, request):
