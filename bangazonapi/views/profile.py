@@ -266,9 +266,14 @@ class Profile(ViewSet):
                 line_item, many=False, context={"request": request}
             )
 
-            return Response(line_item_json.data, status=status.HTTP_201_CREATED)
+            return Response(
+                {"line_item": line_item_json.data, "order_no": open_order.id},
+                status=status.HTTP_201_CREATED,
+            )
 
-        return Response({}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return Response(
+            {"details": "Mothod not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED
+        )
 
     @action(methods=["get"], detail=False)
     def favoritesellers(self, request):
