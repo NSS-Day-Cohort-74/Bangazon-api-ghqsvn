@@ -9,7 +9,8 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
-from bangazonapi.models import Product, Customer, ProductCategory, Like
+from bangazonapi.models import Product, Customer, ProductCategory, Like, ProductRating
+from bangazonapi.views.customer import CustomerSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.parsers import MultiPartParser, FormParser
 
@@ -18,6 +19,7 @@ class ProductSerializer(serializers.ModelSerializer):
     """JSON serializer for products"""
 
     is_liked = serializers.SerializerMethodField()
+    avg_rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -31,8 +33,9 @@ class ProductSerializer(serializers.ModelSerializer):
             "created_date",
             "location",
             "image_path",
-            "average_rating",
+            "avg_rating",
             "can_be_rated",
+            "ratings",
             "is_liked",
         )
         depth = 1
@@ -42,6 +45,36 @@ class ProductSerializer(serializers.ModelSerializer):
         if request:
             return obj.is_liked(request, obj.id)
         return False
+
+    def get_avg_rating(self, obj):
+        return obj.avg_rating
+
+    def get_ratings(self, obj):
+        ratings = ProductRating.objects.filter(product=obj)
+        if ratings:
+            serialized_ratings = ProductRatingSerializer(
+                ratings, many=True, context=self.context
+            )
+            return serialized_ratings.data
+        return None
+
+
+class ProductRatingSerializer(serializers.ModelSerializer):
+    """JSON serializer for product ratings"""
+
+    customer = CustomerSerializer(
+        many=False,
+        read_only=True,
+    )
+    product = ProductSerializer(
+        many=False,
+        read_only=True,
+    )
+
+    class Meta:
+        model = ProductRating
+        fields = ("id", "customer", "product", "rating", "review", "created_date")
+        depth = 1
 
 
 class Products(ViewSet):
@@ -400,3 +433,33 @@ class Products(ViewSet):
         filtered_data = [product for product in response_data if product["is_liked"]]
 
         return Response(filtered_data, status=status.HTTP_200_OK)
+
+    @action(methods=["post", "delete"], detail=True)
+    def rate(self, request, pk=None):
+        """Rate a product"""
+        try:
+            product_to_rate = Product.objects.get(pk=pk)
+            customer = Customer.objects.get(user=request.auth.user)
+            rating = request.data.get("rating", None)
+
+            product_rating = ProductRating()
+            product_rating.customer = customer
+            product_rating.product = product_to_rate
+
+            if rating and rating["score"]:
+                product_rating.rating = rating["score"]
+
+            if rating["review"]:
+                product_rating.review = rating["review"]
+
+            product_rating.save()
+
+            msg = {"created": True}
+            return Response(msg, status=status.HTTP_201_CREATED)
+
+        except Exception as ex:
+            msg = {
+                "created": False,
+                "details": ex.args[0],
+            }
+            return Response(msg, status=status.HTTP_400_BAD_REQUEST)
