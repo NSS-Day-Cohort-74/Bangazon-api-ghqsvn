@@ -5,6 +5,7 @@ from bangazonapi.models.recommendation import Recommendation
 import base64
 from django.core.files.base import ContentFile
 from django.http import HttpResponseServerError
+from django.conf import settings
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
@@ -12,11 +13,13 @@ from rest_framework import status
 from bangazonapi.models import Product, Customer, ProductCategory, Like
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.parsers import MultiPartParser, FormParser
-
+from bangazonapi.views.productcategory import ProductCategorySerializer
 
 class ProductSerializer(serializers.ModelSerializer):
     """JSON serializer for products"""
     is_liked = serializers.SerializerMethodField()
+    
+
     class Meta:
         model = Product
         fields = (
@@ -31,11 +34,12 @@ class ProductSerializer(serializers.ModelSerializer):
             "image_path",
             "average_rating",
             "can_be_rated",
-            "is_liked"
+            "is_liked",
+            "category"
         )
-        depth = 1
+        depth = 4
 
-            
+    
 
     def get_is_liked(self, obj):
         request = self.context.get('request')
@@ -271,9 +275,9 @@ class Products(ViewSet):
                 }
             ]
         """
-        
+        # Gets all products in the database
         products = Product.objects.all()
-         
+        
             
         # Support filtering by category and/or quantity
         category_id = self.request.query_params.get("category", None)
@@ -315,10 +319,30 @@ class Products(ViewSet):
         if product_location is not None:
             products = products.filter(location=product_location)
 
-        serializer = ProductSerializer(
-            products, many=True, context={"request": request}
-        )
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        # Has the query been filtered? Checks all possible filtering conditions. 
+        if category_id is None and quantity is None and order is None and direction is None and name is None and number_sold is None and min_price is None and product_location is None:
+
+            # Gets all categories, expanded with the last five products in that category
+            categories = ProductCategory.objects.all()
+            
+            # Serializes the categories list with the products expansion
+            serializer = ProductCategorySerializer(categories, many=True, context={"request":request})
+            product_serializer = ProductSerializer(
+                products, many=True
+            )
+
+            # A collection of unique locations
+            locations = set(product['location'] for product in product_serializer.data)
+
+            # Sends a custom response to the client with a key representing if the response was filtered or not
+            return Response({"no_filter": True, "locations":locations,"products": serializer.data}, status=status.HTTP_200_OK)
+
+        else:
+            product_serializer = ProductSerializer(
+                products, many=True
+            )
+            locations = set(product['location'] for product in product_serializer.data)
+            return Response({"no_filter": False,"locations":locations,"products": product_serializer.data}, status=status.HTTP_200_OK)
 
     @action(methods=["post"], detail=True)
     def recommend(self, request, pk=None):
