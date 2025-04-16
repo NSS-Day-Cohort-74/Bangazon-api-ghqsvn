@@ -534,6 +534,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         else:
             return False
 
+    liked_products = serializers.SerializerMethodField()
+
     def get_favorites(self, obj):
         # Finds the customer who is making the request for their profile
         customer = Customer.objects.get(user=self.context["request"].user)
@@ -561,6 +563,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         return store
 
+
     def get_liked_products(self, obj):
         # Finds the customer who is making the request for their profile
         customer = Customer.objects.get(user=self.context["request"].user)
@@ -579,6 +582,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         liked_products = [like.product for like in likes]
 
         # Serialize this customer's liked products
+        serializer = ProductSerializer(
+            liked_products, many=True, context={"request": self.context["request"]}
+        )
         serializer = ProductSerializer(
             liked_products, many=True, context={"request": self.context["request"]}
         )
@@ -609,6 +615,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "is_admin",
             "liked_products",
             "is_admin",
+            "liked_products",
         )
         depth = 1
 
