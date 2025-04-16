@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 from bangazonapi.models import Order, Customer, Product
 from bangazonapi.models import OrderProduct, Favorite
-from bangazonapi.models import Recommendation
+from bangazonapi.models import Recommendation, Like
 from .product import ProductSerializer
 from .order import OrderSerializer
 
@@ -505,6 +505,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     recommended = RecommenderSerializer(many=True)
     store = serializers.SerializerMethodField()
     favorites = serializers.SerializerMethodField()
+    liked_products = serializers.SerializerMethodField()
 
     def get_favorites(self, obj):
         # Finds the customer who is making the request for their profile
@@ -531,7 +532,23 @@ class ProfileSerializer(serializers.ModelSerializer):
         store["id"] = pbj.id
 
         return store
+    
+    def get_liked_products(self, obj):
+        # Finds the customer who is making the request for their profile
+        customer = Customer.objects.get(user=self.context["request"].user)
 
+        # Filters all product-like relationships based on what this customer has liked
+        likes = Like.objects.filter(customer=customer)
+
+        # Gets product objects from the product-likes relationship
+        liked_products = [like.product for like in likes]
+
+        # Serialize this customer's liked products
+        serializer = ProductSerializer(liked_products, many=True, context={"request": self.context["request"]})
+
+        # return a serialized list of liked products to be included in the likes field
+        return serializer.data
+    
     class Meta:
         model = Customer
         fields = (
@@ -545,6 +562,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "recommended",
             "store",
             "favorites",
+            "liked_products",
         )
         depth = 1
 
