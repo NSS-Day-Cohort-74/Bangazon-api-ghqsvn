@@ -199,3 +199,27 @@ class OrderTests(APITestCase):
         self.assertEqual(len(user_two_cart["lineitems"]), 1)
 
     # TODO: Complete order by adding payment type
+    def test_add_payment_type_to_order(self):
+        url = "/profile/cart"
+        data = {"product_id": 1}
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
+        self.client.post(url, data, format="json")
+
+        response = self.client.get("/cart", format="json")
+        order_id = json.loads(response.content)["id"]
+
+        data = {
+            "merchant_name": "Visa",
+            "account_number": "03030303934",
+            "expiration_date": "2111-01-01"
+        }
+        response = self.client.post("/payment-types", data, format="json")
+        payment_type_id = json.loads(response.content)["id"]
+
+        data = {"payment_type": payment_type_id}
+        self.client.put(f"/orders/{order_id}", data, format="json")
+
+        response = self.client.get(f"/orders/{order_id}", format="json")
+        order = json.loads(response.content)
+        self.assertEqual(order["payment_type"]["id"], payment_type_id)
+
