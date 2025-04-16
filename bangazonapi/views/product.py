@@ -403,14 +403,17 @@ class Products(ViewSet):
     @action(methods=["post", "delete"], detail=True)
     def like(self, request, pk=True):
 
-        customer = Customer.objects.get(user=request.auth.user)
-        product = Product.objects.get(pk=pk)
-
         try:
-            if Like.objects.filter(customer=customer, product=product).exists():
-                Like.objects.get(customer=customer, product=product).delete()
+            customer = Customer.objects.get(user=request.auth.user)
+            product = Product.objects.get(pk=pk)
+        except Product.DoesNotExist as Ex:
+            return Response(f"Details: {ex.args[0]}", status=status.HTTP_404_NOT_FOUND)
+        try:
+            customer_liked_products =  Like.objects.filter(customer=customer, product=product)
+            if customer_liked_products.exists():
+                customer_liked_products.delete()
                 return Response("deleted", status=status.HTTP_204_NO_CONTENT)
-
+            
             like = Like()
             like.customer = Customer.objects.filter(user=request.auth.user).first()
             like.product = Product.objects.filter(pk=pk).first()
@@ -420,19 +423,19 @@ class Products(ViewSet):
         except Exception as ex:
             return Response({"error": ex}, status=status.HTTP_404_NOT_FOUND)
 
-    @action(methods=["get"], detail=False)
-    def liked(self, request):
+    # @action(methods=["get"], detail=False)
+    # def liked(self, request):
 
-        products = Product.objects.all()
+    #     products = Product.objects.all()
 
-        serializer = ProductSerializer(
-            products, many=True, context={"request": request}
-        )
+    #     serializer = ProductSerializer(
+    #         products, many=True, context={"request": request}
+    #     )
 
-        response_data = serializer.data
-        filtered_data = [product for product in response_data if product["is_liked"]]
+    #     response_data = serializer.data
+    #     filtered_data = [product for product in response_data if product["is_liked"]]
 
-        return Response(filtered_data, status=status.HTTP_200_OK)
+    #     return Response(filtered_data, status=status.HTTP_200_OK)
 
     @action(methods=["post", "delete"], detail=True)
     def rate(self, request, pk=None):
