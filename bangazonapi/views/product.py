@@ -423,20 +423,6 @@ class Products(ViewSet):
         except Exception as ex:
             return Response({"error": ex}, status=status.HTTP_404_NOT_FOUND)
 
-    # @action(methods=["get"], detail=False)
-    # def liked(self, request):
-
-    #     products = Product.objects.all()
-
-    #     serializer = ProductSerializer(
-    #         products, many=True, context={"request": request}
-    #     )
-
-    #     response_data = serializer.data
-    #     filtered_data = [product for product in response_data if product["is_liked"]]
-
-    #     return Response(filtered_data, status=status.HTTP_200_OK)
-
     @action(methods=["post", "delete"], detail=True)
     def rate(self, request, pk=None):
         """Rate a product"""
