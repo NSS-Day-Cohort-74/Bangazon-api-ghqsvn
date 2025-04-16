@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{{ title }}</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>{{ heading }}</h1>
+
+    {% if sellers %}
+    <table>
+      <thead>
+        <tr>
+          <th>Seller First Name</th>
+          <th>Seller Last Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for seller in sellers %}
+        <tr>
+          <td>{{ seller.user.first_name }}</td>
+          <td>{{ seller.user.last_name }}</td>
+          <td>{{ seller.user.email }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p>No favorite sellers found for this customer.</p>
+    {% endif %}
+  </body>
+</html>

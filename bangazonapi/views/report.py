@@ -6,6 +6,8 @@ from bangazonapi.models.orderproduct import OrderProduct
 from django.shortcuts import render
 from django.db.models import Sum, F
 from django.urls import reverse
+from bangazonapi.models.favorite import Favorite
+from bangazonapi.models.customer import Customer
 
 
 @login_required(login_url="reports_login")
@@ -62,3 +64,44 @@ def report(request):
         }
         return render(request, "orderreport.html", context)
 
+
+def favorite_sellers_report(request):
+    customer_id = request.GET.get("customer")
+
+    if not customer_id:
+        return render(
+            request,
+            "favoritesreport.html",
+            {
+                "title": "Favorite Sellers Report",
+                "heading": "Missing Customer ID",
+                "error": "You must include a customer ID in the URL (e.g., ?customer=1).",
+            },
+        )
+
+    try:
+        customer = Customer.objects.select_related("user").get(pk=customer_id)
+    except Customer.DoesNotExist:
+        return render(
+            request,
+            "report.html",
+            {
+                "title": "Favorite Sellers Report",
+                "heading": "Customer Not Found",
+                "error": f"No customer found with ID {customer_id}.",
+            },
+        )
+
+    # Get the favorite sellers (which are also customers)
+    favorites = Favorite.objects.filter(customer_id=customer_id).select_related(
+        "seller__user"
+    )  # ensure we prefetch user data
+    sellers = [favorite.seller for favorite in favorites]
+
+    context = {
+        "title": "Favorite Sellers",
+        "heading": f"Favorite Sellers of {customer.user.first_name} {customer.user.last_name}",
+        "sellers": sellers,
+    }
+
+    return render(request, "favoritesreport.html", context)

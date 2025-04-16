@@ -20,7 +20,7 @@ from bangazonapi.views import (
     login_user,
     report_login,
     report,
- 
+    favorite_sellers_report,
 )
 
 # pylint: disable=invalid-name
@@ -49,6 +49,11 @@ urlpatterns = [
                 path("expensiveproducts", report, name="expensive_report"),
                 path("inexpensiveproducts", report, name="inexpensive_report"),
                 path("orders", report, name="order_report"),
+                path(
+                    "favoritesellers",
+                    favorite_sellers_report,
+                    name="favorite_sellers_report",
+                ),
             ]
         ),
     ),
