@@ -9,6 +9,10 @@ from .productrating import ProductRating
 
 
 class Product(SafeDeleteModel):
+    class Meta:
+        verbose_name = "product"
+        verbose_name_plural = "products"
+
     _safedelete_policy = SOFT_DELETE
     name = models.CharField(
         max_length=50,
@@ -41,18 +45,17 @@ class Product(SafeDeleteModel):
         blank=True,
     )
 
-    
     def is_liked(self, request, pk):
         from .like import Like
+
         # is the product liked?
-        
+
         customer = Customer.objects.get(user=request.auth.user)
         is_liked = Like.objects.filter(product_id=pk, customer=customer).exists()
         if is_liked:
             return True
         else:
             return False
-
 
     @property
     def number_sold(self):
@@ -80,24 +83,20 @@ class Product(SafeDeleteModel):
         self.__can_be_rated = value
 
     @property
-    def average_rating(self):
+    def avg_rating(self):
         """Average rating calculated attribute for each product
-
         Returns:
             number -- The average rating for the product
         """
         ratings = ProductRating.objects.filter(product=self)
-        if ratings.size == 0:
+        if len(ratings) == 0:
             return 0
         total_rating = 0
         for rating in ratings:
             total_rating += rating.rating
-
         avg = total_rating / len(ratings)
-        return avg
+        return round(avg, 2)
 
-    class Meta:
-        verbose_name = "product"
-        verbose_name_plural = "products"
-
-
+    @property
+    def ratings(self):
+        return ProductRating.objects.filter(product=self)
