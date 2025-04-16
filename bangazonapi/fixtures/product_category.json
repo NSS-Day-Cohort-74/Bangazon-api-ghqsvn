@@ -40,5 +40,33 @@
         "fields": {
             "name": "Games/Toys"
         }
+    },
+    {
+        "model": "bangazonapi.productcategory",
+        "pk": 7,
+        "fields": {
+            "name": "Home Appliances"
+        }
+    },
+    {
+        "model": "bangazonapi.productcategory",
+        "pk": 8,
+        "fields": {
+            "name": "Books"
+        }
+    },
+    {
+        "model": "bangazonapi.productcategory",
+        "pk": 9,
+        "fields": {
+            "name": "Sports Equipment"
+        }
+    },
+    {
+        "model": "bangazonapi.productcategory",
+        "pk": 10,
+        "fields": {
+            "name": "Health & Beauty"
+        }
     }
 ]
