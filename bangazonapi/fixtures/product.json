@@ -9,7 +9,7 @@
             "description": "Smart speaker with Alexa",
             "quantity": 10,
             "created_date": "2023-01-15",
-            "category_id": 1,
+            "category_id": 3,
             "location": "New York",
             "image_path": "products/echodot.jpg"
         }
@@ -24,7 +24,7 @@
             "description": "21-speed aluminum frame bike",
             "quantity": 2,
             "created_date": "2023-03-22",
-            "category_id": 3,
+            "category_id": 9,
             "location": "Denver",
             "image_path": "products/bike.jpg"
         }
@@ -39,7 +39,7 @@
             "description": "Genuine leather with RFID blocking",
             "quantity": 25,
             "created_date": "2023-06-10",
-            "category_id": 4,
+            "category_id": 5,
             "location": "Chicago",
             "image_path": "products/wallet.jpg"
         }
@@ -54,7 +54,7 @@
             "description": "15.6-inch, RTX 3060, 16GB RAM",
             "quantity": 5,
             "created_date": "2023-11-01",
-            "category_id": 1,
+            "category_id": 3,
             "location": "Austin",
             "image_path": "products/laptop.jpg"
         }
@@ -84,7 +84,7 @@
             "description": "Noise cancelling over-ear headphones",
             "quantity": 15,
             "created_date": "2024-03-18",
-            "category_id": 1,
+            "category_id": 3,
             "location": "Seattle",
             "image_path": "products/headphones.jpg"
         }
@@ -99,7 +99,7 @@
             "description": "Compact espresso maker with milk frother",
             "quantity": 4,
             "created_date": "2023-09-07",
-            "category_id": 6,
+            "category_id": 7,
             "location": "Portland",
             "image_path": "products/espresso.jpg"
         }
@@ -109,7 +109,7 @@
         "pk": 8,
         "fields": {
             "name": "Acoustic Guitar",
-            "customer_id": 7,
+            "customer_id": 6,
             "price": 350.00,
             "description": "Yamaha FG800 dreadnought style",
             "quantity": 7,
@@ -129,7 +129,7 @@
             "description": "4-person waterproof tent for outdoor camping",
             "quantity": 9,
             "created_date": "2023-05-14",
-            "category_id": 3,
+            "category_id": 9,
             "location": "Boise",
             "image_path": "products/tent.jpg"
         }
@@ -144,461 +144,1360 @@
             "description": "Rechargeable with pressure sensor and 3 modes",
             "quantity": 30,
             "created_date": "2023-08-23",
-            "category_id": 5,
+            "category_id": 10,
             "location": "Miami",
             "image_path": "products/toothbrush.jpg"
         }
     },
-    
-        {
-            "model": "bangazonapi.product",
-            "pk": 11,
-            "fields": {
-                "name": "Smart TV",
-                "customer_id": 7,
-                "price": 1120.94,
-                "description": "Top-rated and energy-efficient",
-                "quantity": 25,
-                "created_date": "2023-03-09",
-                "category_id": 4,
-                "location": "Las Vegas",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 12,
-            "fields": {
-                "name": "Wireless Mouse",
-                "customer_id": 5,
-                "price": 1161.58,
-                "description": "Lightweight and ergonomic",
-                "quantity": 9,
-                "created_date": "2023-05-26",
-                "category_id": 4,
-                "location": "Atlanta",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 13,
-            "fields": {
-                "name": "Office Chair",
-                "customer_id": 5,
-                "price": 1143.62,
-                "description": "Built for comfort and durability",
-                "quantity": 30,
-                "created_date": "2023-04-24",
-                "category_id": 1,
-                "location": "Detroit",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 14,
-            "fields": {
-                "name": "Electric Kettle",
-                "customer_id": 7,
-                "price": 36.78,
-                "description": "Stainless steel with fast boil feature",
-                "quantity": 27,
-                "created_date": "2023-10-02",
-                "category_id": 3,
-                "location": "San Diego",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 15,
-            "fields": {
-                "name": "Yoga Mat",
-                "customer_id": 7,
-                "price": 1228.71,
-                "description": "Eco-friendly and non-slip surface",
-                "quantity": 28,
-                "created_date": "2023-07-30",
-                "category_id": 4,
-                "location": "Minneapolis",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 16,
-            "fields": {
-                "name": "Bluetooth Speaker",
-                "customer_id": 5,
-                "price": 89.02,
-                "description": "Portable with deep bass",
-                "quantity": 23,
-                "created_date": "2023-11-05",
-                "category_id": 3,
-                "location": "Orlando",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 17,
-            "fields": {
-                "name": "Laptop Stand",
-                "customer_id": 6,
-                "price": 584.0,
-                "description": "Aluminum, foldable and adjustable",
-                "quantity": 2,
-                "created_date": "2023-02-26",
-                "category_id": 1,
-                "location": "Boston",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 18,
-            "fields": {
-                "name": "Coffee Grinder",
-                "customer_id": 7,
-                "price": 1020.36,
-                "description": "Burr grinder with precise settings",
-                "quantity": 7,
-                "created_date": "2023-02-08",
-                "category_id": 1,
-                "location": "Las Vegas",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 19,
-            "fields": {
-                "name": "Standing Desk",
-                "customer_id": 7,
-                "price": 1105.37,
-                "description": "Adjustable height and memory settings",
-                "quantity": 3,
-                "created_date": "2023-09-06",
-                "category_id": 5,
-                "location": "Phoenix",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 20,
-            "fields": {
-                "name": "Digital Camera",
-                "customer_id": 6,
-                "price": 419.7,
-                "description": "High-res with optical zoom",
-                "quantity": 27,
-                "created_date": "2023-03-22",
-                "category_id": 3,
-                "location": "Detroit",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 21,
-            "fields": {
-                "name": "Cordless Drill",
-                "customer_id": 6,
-                "price": 418.0,
-                "description": "20V with 2-speed settings",
-                "quantity": 21,
-                "created_date": "2023-01-16",
-                "category_id": 4,
-                "location": "Charlotte",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 22,
-            "fields": {
-                "name": "Sunglasses",
-                "customer_id": 5,
-                "price": 715.3,
-                "description": "Polarized with UV protection",
-                "quantity": 23,
-                "created_date": "2023-05-18",
-                "category_id": 4,
-                "location": "Atlanta",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 23,
-            "fields": {
-                "name": "Water Bottle",
-                "customer_id": 7,
-                "price": 1111.55,
-                "description": "Insulated and leak-proof",
-                "quantity": 29,
-                "created_date": "2023-01-26",
-                "category_id": 3,
-                "location": "Charlotte",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 24,
-            "fields": {
-                "name": "Backpack",
-                "customer_id": 4,
-                "price": 133.18,
-                "description": "Weather-resistant and roomy",
-                "quantity": 20,
-                "created_date": "2023-08-14",
-                "category_id": 5,
-                "location": "San Diego",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 25,
-            "fields": {
-                "name": "Instant Pot",
-                "customer_id": 5,
-                "price": 1280.52,
-                "description": "7-in-1 pressure cooker",
-                "quantity": 11,
-                "created_date": "2023-06-15",
-                "category_id": 3,
-                "location": "Atlanta",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 26,
-            "fields": {
-                "name": "Hair Dryer",
-                "customer_id": 4,
-                "price": 707.03,
-                "description": "Ionic technology for frizz control",
-                "quantity": 29,
-                "created_date": "2023-01-23",
-                "category_id": 1,
-                "location": "Detroit",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 27,
-            "fields": {
-                "name": "Wall Clock",
-                "customer_id": 6,
-                "price": 969.96,
-                "description": "Minimalist design with silent ticking",
-                "quantity": 14,
-                "created_date": "2023-03-24",
-                "category_id": 6,
-                "location": "Phoenix",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 28,
-            "fields": {
-                "name": "LED Lamp",
-                "customer_id": 5,
-                "price": 1002.56,
-                "description": "Touch control and dimmable",
-                "quantity": 8,
-                "created_date": "2023-05-23",
-                "category_id": 3,
-                "location": "Atlanta",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 29,
-            "fields": {
-                "name": "Microwave Oven",
-                "customer_id": 7,
-                "price": 378.42,
-                "description": "Compact with defrost feature",
-                "quantity": 24,
-                "created_date": "2023-04-03",
-                "category_id": 1,
-                "location": "Dallas",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 30,
-            "fields": {
-                "name": "Tablet",
-                "customer_id": 4,
-                "price": 239.55,
-                "description": "10.1-inch HD screen",
-                "quantity": 24,
-                "created_date": "2023-05-21",
-                "category_id": 5,
-                "location": "Charlotte",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 31,
-            "fields": {
-                "name": "Smart Watch",
-                "customer_id": 6,
-                "price": 632.59,
-                "description": "Fitness and health tracking",
-                "quantity": 8,
-                "created_date": "2023-09-16",
-                "category_id": 4,
-                "location": "Las Vegas",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 32,
-            "fields": {
-                "name": "Sneakers",
-                "customer_id": 4,
-                "price": 1181.46,
-                "description": "Breathable and cushioned",
-                "quantity": 28,
-                "created_date": "2023-04-03",
-                "category_id": 4,
-                "location": "Phoenix",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 33,
-            "fields": {
-                "name": "Cookware Set",
-                "customer_id": 6,
-                "price": 415.65,
-                "description": "Non-stick and induction ready",
-                "quantity": 25,
-                "created_date": "2023-02-26",
-                "category_id": 5,
-                "location": "Minneapolis",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 34,
-            "fields": {
-                "name": "Thermostat",
-                "customer_id": 6,
-                "price": 802.21,
-                "description": "Smart home compatible",
-                "quantity": 16,
-                "created_date": "2023-06-26",
-                "category_id": 1,
-                "location": "San Diego",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 35,
-            "fields": {
-                "name": "Floor Lamp",
-                "customer_id": 4,
-                "price": 535.01,
-                "description": "Tripod stand included",
-                "quantity": 27,
-                "created_date": "2023-07-18",
-                "category_id": 4,
-                "location": "Minneapolis",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 36,
-            "fields": {
-                "name": "Vacuum Cleaner",
-                "customer_id": 5,
-                "price": 380.65,
-                "description": "Pet hair remover with HEPA filter",
-                "quantity": 20,
-                "created_date": "2023-05-14",
-                "category_id": 5,
-                "location": "Minneapolis",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 37,
-            "fields": {
-                "name": "Power Bank",
-                "customer_id": 7,
-                "price": 210.23,
-                "description": "Fast charging with 10,000mAh",
-                "quantity": 23,
-                "created_date": "2023-11-08",
-                "category_id": 3,
-                "location": "Phoenix",
-                "image_path": "products/powerbank.jpg"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 38,
-            "fields": {
-                "name": "Gaming Console",
-                "customer_id": 7,
-                "price": 709.37,
-                "description": "4K gaming with VR support",
-                "quantity": 26,
-                "created_date": "2023-04-25",
-                "category_id": 2,
-                "location": "Atlanta",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 39,
-            "fields": {
-                "name": "Noise Machine",
-                "customer_id": 7,
-                "price": 978.54,
-                "description": "Soothing ambient sounds",
-                "quantity": 14,
-                "created_date": "2023-10-31",
-                "category_id": 1,
-                "location": "Dallas",
-                "image_path": "products/NI.png"
-            }
-        },
-        {
-            "model": "bangazonapi.product",
-            "pk": 40,
-            "fields": {
-                "name": "Fitness Tracker",
-                "customer_id": 4,
-                "price": 25.89,
-                "description": "Steps and sleep monitor",
-                "quantity": 24,
-                "created_date": "2023-06-12",
-                "category_id": 5,
-                "location": "Boston",
-                "image_path": "products/NI.png"
-            }
+    {
+        "model": "bangazonapi.product",
+        "pk": 11,
+        "fields": {
+            "name": "Smart TV",
+            "customer_id": 7,
+            "price": 549.99,
+            "description": "55-inch 4K Ultra HD Smart TV with voice control",
+            "quantity": 12,
+            "created_date": "2023-03-09",
+            "category_id": 3,
+            "location": "Las Vegas",
+            "image_path": "products/smarttv.jpg"
         }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 12,
+        "fields": {
+            "name": "Wireless Mouse",
+            "customer_id": 5,
+            "price": 42.99,
+            "description": "Ergonomic wireless mouse with programmable buttons",
+            "quantity": 18,
+            "created_date": "2023-05-26",
+            "category_id": 3,
+            "location": "Atlanta",
+            "image_path": "products/mouse.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 13,
+        "fields": {
+            "name": "Office Chair",
+            "customer_id": 5,
+            "price": 189.99,
+            "description": "Ergonomic mesh office chair with lumbar support",
+            "quantity": 15,
+            "created_date": "2023-04-24",
+            "category_id": 7,
+            "location": "Detroit",
+            "image_path": "products/officechair.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 14,
+        "fields": {
+            "name": "Electric Kettle",
+            "customer_id": 7,
+            "price": 36.78,
+            "description": "1.7L stainless steel electric kettle with auto shut-off",
+            "quantity": 27,
+            "created_date": "2023-10-02",
+            "category_id": 7,
+            "location": "San Diego",
+            "image_path": "products/kettle.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 15,
+        "fields": {
+            "name": "Yoga Mat",
+            "customer_id": 7,
+            "price": 28.95,
+            "description": "6mm thick non-slip yoga mat with carrying strap",
+            "quantity": 28,
+            "created_date": "2023-07-30",
+            "category_id": 9,
+            "location": "Minneapolis",
+            "image_path": "products/yogamat.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 16,
+        "fields": {
+            "name": "Bluetooth Speaker",
+            "customer_id": 5,
+            "price": 89.02,
+            "description": "Waterproof portable Bluetooth speaker with 12-hour battery",
+            "quantity": 23,
+            "created_date": "2023-11-05",
+            "category_id": 3,
+            "location": "Orlando",
+            "image_path": "products/btspeaker.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 17,
+        "fields": {
+            "name": "Laptop Stand",
+            "customer_id": 6,
+            "price": 34.99,
+            "description": "Adjustable height aluminum laptop stand",
+            "quantity": 12,
+            "created_date": "2023-02-26",
+            "category_id": 3,
+            "location": "Boston",
+            "image_path": "products/laptopstand.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 18,
+        "fields": {
+            "name": "Coffee Grinder",
+            "customer_id": 7,
+            "price": 79.95,
+            "description": "Conical burr coffee grinder with 40 grind settings",
+            "quantity": 7,
+            "created_date": "2023-02-08",
+            "category_id": 7,
+            "location": "Las Vegas",
+            "image_path": "products/coffeegrinder.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 19,
+        "fields": {
+            "name": "Standing Desk",
+            "customer_id": 7,
+            "price": 329.99,
+            "description": "Electric standing desk with memory presets",
+            "quantity": 3,
+            "created_date": "2023-09-06",
+            "category_id": 7,
+            "location": "Phoenix",
+            "image_path": "products/standingdesk.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 20,
+        "fields": {
+            "name": "Digital Camera",
+            "customer_id": 6,
+            "price": 419.70,
+            "description": "20MP digital camera with 5x optical zoom and 4K video",
+            "quantity": 9,
+            "created_date": "2023-03-22",
+            "category_id": 3,
+            "location": "Detroit",
+            "image_path": "products/camera.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 21,
+        "fields": {
+            "name": "Cordless Drill",
+            "customer_id": 6,
+            "price": 89.99,
+            "description": "20V lithium-ion cordless drill with 2 batteries",
+            "quantity": 21,
+            "created_date": "2023-01-16",
+            "category_id": 1,
+            "location": "Charlotte",
+            "image_path": "products/drill.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 22,
+        "fields": {
+            "name": "Sunglasses",
+            "customer_id": 5,
+            "price": 72.50,
+            "description": "Polarized UV400 protection sunglasses",
+            "quantity": 23,
+            "created_date": "2023-05-18",
+            "category_id": 5,
+            "location": "Atlanta",
+            "image_path": "products/sunglasses.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 23,
+        "fields": {
+            "name": "Water Bottle",
+            "customer_id": 7,
+            "price": 24.95,
+            "description": "32oz vacuum insulated stainless steel water bottle",
+            "quantity": 29,
+            "created_date": "2023-01-26",
+            "category_id": 9,
+            "location": "Charlotte",
+            "image_path": "products/waterbottle.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 24,
+        "fields": {
+            "name": "Backpack",
+            "customer_id": 4,
+            "price": 69.99,
+            "description": "Water-resistant laptop backpack with USB charging port",
+            "quantity": 20,
+            "created_date": "2023-08-14",
+            "category_id": 5,
+            "location": "San Diego",
+            "image_path": "products/backpack.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 25,
+        "fields": {
+            "name": "Instant Pot",
+            "customer_id": 5,
+            "price": 119.95,
+            "description": "7-in-1 multi-functional pressure cooker, 6-quart",
+            "quantity": 11,
+            "created_date": "2023-06-15",
+            "category_id": 7,
+            "location": "Atlanta",
+            "image_path": "products/instantpot.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 26,
+        "fields": {
+            "name": "Hair Dryer",
+            "customer_id": 4,
+            "price": 79.99,
+            "description": "1875W ionic hair dryer with diffuser",
+            "quantity": 16,
+            "created_date": "2023-01-23",
+            "category_id": 10,
+            "location": "Detroit",
+            "image_path": "products/hairdryer.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 27,
+        "fields": {
+            "name": "Wall Clock",
+            "customer_id": 6,
+            "price": 34.99,
+            "description": "12-inch modern silent wall clock",
+            "quantity": 14,
+            "created_date": "2023-03-24",
+            "category_id": 7,
+            "location": "Phoenix",
+            "image_path": "products/wallclock.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 28,
+        "fields": {
+            "name": "LED Desk Lamp",
+            "customer_id": 5,
+            "price": 39.99,
+            "description": "Dimmable LED desk lamp with 5 color modes",
+            "quantity": 18,
+            "created_date": "2023-05-23",
+            "category_id": 7,
+            "location": "Atlanta",
+            "image_path": "products/desklamp.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 29,
+        "fields": {
+            "name": "Microwave Oven",
+            "customer_id": 7,
+            "price": 99.99,
+            "description": "0.9 cu. ft. countertop microwave with 900 watts",
+            "quantity": 8,
+            "created_date": "2023-04-03",
+            "category_id": 7,
+            "location": "Dallas",
+            "image_path": "products/microwave.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 30,
+        "fields": {
+            "name": "Tablet",
+            "customer_id": 4,
+            "price": 239.55,
+            "description": "10.1-inch Android tablet with 64GB storage",
+            "quantity": 24,
+            "created_date": "2023-05-21",
+            "category_id": 3,
+            "location": "Charlotte",
+            "image_path": "products/tablet.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 31,
+        "fields": {
+            "name": "Smart Watch",
+            "customer_id": 6,
+            "price": 199.99,
+            "description": "Fitness smartwatch with heart rate monitor",
+            "quantity": 8,
+            "created_date": "2023-09-16",
+            "category_id": 3,
+            "location": "Las Vegas",
+            "image_path": "products/smartwatch.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 32,
+        "fields": {
+            "name": "Athletic Sneakers",
+            "customer_id": 4,
+            "price": 89.99,
+            "description": "Lightweight mesh athletic sneakers",
+            "quantity": 28,
+            "created_date": "2023-04-03",
+            "category_id": 5,
+            "location": "Phoenix",
+            "image_path": "products/sneakers.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 33,
+        "fields": {
+            "name": "Cookware Set",
+            "customer_id": 6,
+            "price": 165.99,
+            "description": "10-piece nonstick cookware set with glass lids",
+            "quantity": 25,
+            "created_date": "2023-02-26",
+            "category_id": 7,
+            "location": "Minneapolis",
+            "image_path": "products/cookware.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 34,
+        "fields": {
+            "name": "Smart Thermostat",
+            "customer_id": 6,
+            "price": 149.99,
+            "description": "Wi-Fi enabled smart thermostat",
+            "quantity": 16,
+            "created_date": "2023-06-26",
+            "category_id": 3,
+            "location": "San Diego",
+            "image_path": "products/thermostat.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 35,
+        "fields": {
+            "name": "Floor Lamp",
+            "customer_id": 4,
+            "price": 69.99,
+            "description": "Modern tripod floor lamp with fabric shade",
+            "quantity": 27,
+            "created_date": "2023-07-18",
+            "category_id": 7,
+            "location": "Minneapolis",
+            "image_path": "products/floorlamp.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 36,
+        "fields": {
+            "name": "Vacuum Cleaner",
+            "customer_id": 5,
+            "price": 179.99,
+            "description": "Bagless upright vacuum with HEPA filter",
+            "quantity": 20,
+            "created_date": "2023-05-14",
+            "category_id": 7,
+            "location": "Minneapolis",
+            "image_path": "products/vacuum.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 37,
+        "fields": {
+            "name": "Power Bank",
+            "customer_id": 7,
+            "price": 29.99,
+            "description": "10,000mAh portable charger with dual USB ports",
+            "quantity": 23,
+            "created_date": "2023-11-08",
+            "category_id": 3,
+            "location": "Phoenix",
+            "image_path": "products/powerbank.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 38,
+        "fields": {
+            "name": "Gaming Console",
+            "customer_id": 7,
+            "price": 499.99,
+            "description": "Next-gen gaming console with 1TB storage",
+            "quantity": 6,
+            "created_date": "2023-04-25",
+            "category_id": 6,
+            "location": "Atlanta",
+            "image_path": "products/console.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 39,
+        "fields": {
+            "name": "White Noise Machine",
+            "customer_id": 7,
+            "price": 39.99,
+            "description": "Sound machine with 20 non-looping sleep sounds",
+            "quantity": 14,
+            "created_date": "2023-10-31",
+            "category_id": 7,
+            "location": "Dallas",
+            "image_path": "products/noisemachine.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 40,
+        "fields": {
+            "name": "Fitness Tracker",
+            "customer_id": 4,
+            "price": 79.99,
+            "description": "Waterproof fitness band with heart rate tracking",
+            "quantity": 24,
+            "created_date": "2023-06-12",
+            "category_id": 3,
+            "location": "Boston",
+            "image_path": "products/fitnesstracker.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 41,
+        "fields": {
+            "name": "Cast Iron Skillet",
+            "customer_id": 7,
+            "price": 29.99,
+            "description": "Pre-seasoned 10-inch cast iron skillet",
+            "quantity": 15,
+            "created_date": "2023-07-05",
+            "category_id": 7,
+            "location": "Chicago",
+            "image_path": "products/castiron.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 42,
+        "fields": {
+            "name": "Tool Set",
+            "customer_id": 5,
+            "price": 89.95,
+            "description": "108-piece household tool kit with case",
+            "quantity": 18,
+            "created_date": "2023-09-12",
+            "category_id": 1,
+            "location": "Houston",
+            "image_path": "products/toolset.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 43,
+        "fields": {
+            "name": "Air Purifier",
+            "customer_id": 6,
+            "price": 129.99,
+            "description": "HEPA air purifier for rooms up to 300 sq. ft.",
+            "quantity": 13,
+            "created_date": "2023-11-15",
+            "category_id": 7,
+            "location": "Portland",
+            "image_path": "products/airpurifier.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 44,
+        "fields": {
+            "name": "External Hard Drive",
+            "customer_id": 6,
+            "price": 79.99,
+            "description": "2TB portable external hard drive with USB 3.0",
+            "quantity": 21,
+            "created_date": "2023-08-19",
+            "category_id": 3,
+            "location": "Seattle",
+            "image_path": "products/harddrive.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 45,
+        "fields": {
+            "name": "Wireless Earbuds",
+            "customer_id": 4,
+            "price": 99.95,
+            "description": "True wireless earbuds with noise cancellation",
+            "quantity": 22,
+            "created_date": "2023-05-30",
+            "category_id": 3,
+            "location": "Nashville",
+            "image_path": "products/earbuds.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 46,
+        "fields": {
+            "name": "Winter Jacket",
+            "customer_id": 7,
+            "price": 149.99,
+            "description": "Water-resistant insulated parka with hood",
+            "quantity": 16,
+            "created_date": "2023-10-22",
+            "category_id": 5,
+            "location": "Denver",
+            "image_path": "products/winterjacket.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 47,
+        "fields": {
+            "name": "Slow Cooker",
+            "customer_id": 7,
+            "price": 49.99,
+            "description": "6-quart programmable slow cooker with timer",
+            "quantity": 10,
+            "created_date": "2023-09-01",
+            "category_id": 7,
+            "location": "Dallas",
+            "image_path": "products/slowcooker.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 48,
+        "fields": {
+            "name": "Mechanical Keyboard",
+            "customer_id": 5,
+            "price": 89.99,
+            "description": "RGB mechanical gaming keyboard with tactile switches",
+            "quantity": 19,
+            "created_date": "2023-04-15",
+            "category_id": 3,
+            "location": "Phoenix",
+            "image_path": "products/keyboard.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 49,
+        "fields": {
+            "name": "Blender",
+            "customer_id": 6,
+            "price": 79.95,
+            "description": "High-speed countertop blender with 64oz jar",
+            "quantity": 17,
+            "created_date": "2023-03-18",
+            "category_id": 7,
+            "location": "Miami",
+            "image_path": "products/blender.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 50,
+        "fields": {
+            "name": "Executive Desk Chair",
+            "customer_id": 6,
+            "price": 159.99,
+            "description": "High-back office chair with adjustable armrests",
+            "quantity": 8,
+            "created_date": "2023-07-10",
+            "category_id": 7,
+            "location": "Chicago",
+            "image_path": "products/execchair.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 51,
+        "fields": {
+            "name": "Digital Alarm Clock",
+            "customer_id": 7,
+            "price": 24.99,
+            "description": "Digital alarm clock with USB charging ports",
+            "quantity": 23,
+            "created_date": "2023-05-07",
+            "category_id": 7,
+            "location": "Boston",
+            "image_path": "products/alarmclock.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 52,
+        "fields": {
+            "name": "Car Phone Mount",
+            "customer_id": 5,
+            "price": 19.99,
+            "description": "Universal dashboard car phone holder",
+            "quantity": 28,
+            "created_date": "2023-06-19",
+            "category_id": 2,
+            "location": "Atlanta",
+            "image_path": "products/phonemount.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 53,
+        "fields": {
+            "name": "Essential Oil Diffuser",
+            "customer_id": 7,
+            "price": 34.95,
+            "description": "300ml ultrasonic essential oil diffuser with LED lights",
+            "quantity": 12,
+            "created_date": "2023-10-14",
+            "category_id": 10,
+            "location": "Seattle",
+            "image_path": "products/diffuser.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 54,
+        "fields": {
+            "name": "Outdoor Fire Pit",
+            "customer_id": 4,
+            "price": 119.99,
+            "description": "32-inch wood burning fire pit with screen cover",
+            "quantity": 9,
+            "created_date": "2023-08-01",
+            "category_id": 4,
+            "location": "Austin",
+            "image_path": "products/firepit.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 55,
+        "fields": {
+            "name": "Sonic Toothbrush",
+            "customer_id": 6,
+            "price": 69.99,
+            "description": "Sonic electric toothbrush with 5 brushing modes",
+            "quantity": 16,
+            "created_date": "2023-09-25",
+            "category_id": 10,
+            "location": "Denver",
+            "image_path": "products/sonic.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 56,
+        "fields": {
+            "name": "Wireless Doorbell",
+            "customer_id": 5,
+            "price": 39.95,
+            "description": "Waterproof wireless doorbell with 1000ft range",
+            "quantity": 24,
+            "created_date": "2023-07-22",
+            "category_id": 3,
+            "location": "Houston",
+            "image_path": "products/doorbell.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 57,
+        "fields": {
+            "name": "Board Game",
+            "customer_id": 7,
+            "price": 49.99,
+            "description": "Strategic family board game for 2-6 players",
+            "quantity": 13,
+            "created_date": "2023-12-05",
+            "category_id": 6,
+            "location": "Portland",
+            "image_path": "products/boardgame.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 58,
+        "fields": {
+            "name": "Historical Fiction Novel",
+            "customer_id": 7,
+            "price": 18.99,
+            "description": "Award-winning novel set during World War II",
+            "quantity": 25,
+            "created_date": "2024-03-12",
+            "category_id": 8,
+            "location": "Boston",
+            "image_path": "products/historicalnovel.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 59,
+        "fields": {
+            "name": "Acrylic Paint Set",
+            "customer_id": 7,
+            "price": 34.95,
+            "description": "Set of 24 vibrant acrylic paints for canvas and crafts",
+            "quantity": 18,
+            "created_date": "2024-03-18",
+            "category_id": 4,
+            "location": "Portland",
+            "image_path": "products/acrylicpaints.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 60,
+        "fields": {
+            "name": "Sci-Fi Trilogy Box Set",
+            "customer_id": 7,
+            "price": 45.99,
+            "description": "Bestselling space opera trilogy in hardcover edition",
+            "quantity": 12,
+            "created_date": "2024-04-01",
+            "category_id": 8,
+            "location": "Seattle",
+            "image_path": "products/scifitrilogy.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 61,
+        "fields": {
+            "name": "Sketching Pencil Kit",
+            "customer_id": 7,
+            "price": 21.99,
+            "description": "12 professional graphite pencils with various hardness levels",
+            "quantity": 30,
+            "created_date": "2024-03-15",
+            "category_id": 4,
+            "location": "Chicago",
+            "image_path": "products/sketchpencils.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 62,
+        "fields": {
+            "name": "Cookbook Collection",
+            "customer_id": 7,
+            "price": 32.50,
+            "description": "Set of 3 international cuisine cookbooks with color photos",
+            "quantity": 15,
+            "created_date": "2024-02-28",
+            "category_id": 8,
+            "location": "New Orleans",
+            "image_path": "products/cookbooks.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 63,
+        "fields": {
+            "name": "Pottery Wheel Kit",
+            "customer_id": 7,
+            "price": 129.99,
+            "description": "Electric pottery wheel with tools for beginners and intermediates",
+            "quantity": 8,
+            "created_date": "2024-04-02",
+            "category_id": 4,
+            "location": "Austin",
+            "image_path": "products/potterywheel.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 64,
+        "fields": {
+            "name": "Fantasy Adventure Novel",
+            "customer_id": 7,
+            "price": 16.99,
+            "description": "Epic fantasy adventure featuring dragons and magic",
+            "quantity": 22,
+            "created_date": "2024-03-25",
+            "category_id": 8,
+            "location": "Denver",
+            "image_path": "products/fantasyadventure.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 65,
+        "fields": {
+            "name": "Embroidery Starter Kit",
+            "customer_id": 7,
+            "price": 24.95,
+            "description": "Complete kit with hoops, threads, and patterns for beginners",
+            "quantity": 20,
+            "created_date": "2024-03-20",
+            "category_id": 4,
+            "location": "Nashville",
+            "image_path": "products/embroiderykit.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 66,
+        "fields": {
+            "name": "Biography Collection",
+            "customer_id": 7,
+            "price": 39.99,
+            "description": "Set of 4 bestselling biographies of influential historical figures",
+            "quantity": 10,
+            "created_date": "2024-03-10",
+            "category_id": 8,
+            "location": "Philadelphia",
+            "image_path": "products/biographies.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 67,
+        "fields": {
+            "name": "Canvas Pack",
+            "customer_id": 7,
+            "price": 28.50,
+            "description": "Set of 5 pre-stretched canvases in various sizes",
+            "quantity": 25,
+            "created_date": "2024-03-22",
+            "category_id": 4,
+            "location": "San Francisco",
+            "image_path": "products/canvaspack.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 68,
+        "fields": {
+            "name": "Mystery Novel Series",
+            "customer_id": 7,
+            "price": 52.99,
+            "description": "Complete 5-book detective series by bestselling author",
+            "quantity": 12,
+            "created_date": "2024-04-05",
+            "category_id": 8,
+            "location": "Miami",
+            "image_path": "products/mysteryseries.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 69,
+        "fields": {
+            "name": "Jewelry Making Kit",
+            "customer_id": 7,
+            "price": 45.95,
+            "description": "Complete beading and wire set for making custom jewelry",
+            "quantity": 15,
+            "created_date": "2024-03-14",
+            "category_id": 4,
+            "location": "Atlanta",
+            "image_path": "products/jewelrykit.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 70,
+        "fields": {
+            "name": "Children's Illustrated Book Set",
+            "customer_id": 7,
+            "price": 29.99,
+            "description": "Collection of 6 illustrated storybooks for ages 4-8",
+            "quantity": 18,
+            "created_date": "2024-03-26",
+            "category_id": 8,
+            "location": "Minneapolis",
+            "image_path": "products/childrensbooks.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 71,
+        "fields": {
+            "name": "Watercolor Paper Pad",
+            "customer_id": 7,
+            "price": 15.99,
+            "description": "30-sheet cold press watercolor paper, acid-free, 9\"x12\"",
+            "quantity": 40,
+            "created_date": "2024-03-19",
+            "category_id": 4,
+            "location": "Santa Fe",
+            "image_path": "products/watercolorpaper.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 72,
+        "fields": {
+            "name": "Self-Help Book Bundle",
+            "customer_id": 7,
+            "price": 37.50,
+            "description": "Set of 3 motivational and personal development bestsellers",
+            "quantity": 14,
+            "created_date": "2024-03-05",
+            "category_id": 8,
+            "location": "Los Angeles",
+            "image_path": "products/selfhelpbooks.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 73,
+        "fields": {
+            "name": "Clay Sculpting Set",
+            "customer_id": 7,
+            "price": 32.95,
+            "description": "Air-dry clay with sculpting tools and instruction book",
+            "quantity": 22,
+            "created_date": "2024-03-30",
+            "category_id": 4,
+            "location": "Portland",
+            "image_path": "products/claykit.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 74,
+        "fields": {
+            "name": "Art History Textbook",
+            "customer_id": 7,
+            "price": 59.99,
+            "description": "Comprehensive guide to Western art from Renaissance to Modern",
+            "quantity": 10,
+            "created_date": "2024-03-28",
+            "category_id": 8,
+            "location": "Chicago",
+            "image_path": "products/arthistory.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 75,
+        "fields": {
+            "name": "Calligraphy Pen Set",
+            "customer_id": 7,
+            "price": 26.99,
+            "description": "5 calligraphy pens with various nibs and ink cartridges",
+            "quantity": 30,
+            "created_date": "2024-04-06",
+            "category_id": 4,
+            "location": "Seattle",
+            "image_path": "products/calligraphyset.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 76,
+        "fields": {
+            "name": "Gardening Reference Book",
+            "customer_id": 7,
+            "price": 24.95,
+            "description": "Illustrated encyclopedia of plants with care instructions",
+            "quantity": 15,
+            "created_date": "2024-04-03",
+            "category_id": 8,
+            "location": "Portland",
+            "image_path": "products/gardeningbook.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 77,
+        "fields": {
+            "name": "Scrapbooking Kit",
+            "customer_id": 7,
+            "price": 39.99,
+            "description": "Complete set with album, papers, stickers, and embellishments",
+            "quantity": 12,
+            "created_date": "2024-03-17",
+            "category_id": 4,
+            "location": "Denver",
+            "image_path": "products/scrapbookkit.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 78,
+        "fields": {
+            "name": "Thriller Novel Collection",
+            "customer_id": 7,
+            "price": 42.50,
+            "description": "Set of 4 bestselling psychological thrillers",
+            "quantity": 16,
+            "created_date": "2024-03-24",
+            "category_id": 8,
+            "location": "Boston",
+            "image_path": "products/thrillerbooks.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 79,
+        "fields": {
+            "name": "Knitting Starter Kit",
+            "customer_id": 7,
+            "price": 29.95,
+            "description": "Beginner's knitting set with needles, yarn, and instruction book",
+            "quantity": 20,
+            "created_date": "2024-04-01",
+            "category_id": 4,
+            "location": "Minneapolis",
+            "image_path": "products/knittingkit.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 80,
+        "fields": {
+            "name": "Comic Book Collection",
+            "customer_id": 7,
+            "price": 49.99,
+            "description": "Limited edition graphic novel compilation, hardcover",
+            "quantity": 8,
+            "created_date": "2024-03-27",
+            "category_id": 8,
+            "location": "Austin",
+            "image_path": "products/comicbooks.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 81,
+        "fields": {
+            "name": "Oil Painting Set",
+            "customer_id": 7,
+            "price": 54.95,
+            "description": "12 oil paints with brushes, palette, and canvas panels",
+            "quantity": 14,
+            "created_date": "2024-03-16",
+            "category_id": 4,
+            "location": "Santa Fe",
+            "image_path": "products/oilpaintingset.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 82,
+        "fields": {
+            "name": "Popular Science Book Bundle",
+            "customer_id": 7,
+            "price": 38.99,
+            "description": "Collection of 3 bestselling books explaining complex science for general readers",
+            "quantity": 18,
+            "created_date": "2024-03-29",
+            "category_id": 8,
+            "location": "San Francisco",
+            "image_path": "products/sciencebooks.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 83,
+        "fields": {
+            "name": "Leather Crafting Kit",
+            "customer_id": 7,
+            "price": 59.95,
+            "description": "Complete set for making leather wallets, keychains, and small accessories",
+            "quantity": 10,
+            "created_date": "2024-04-04",
+            "category_id": 4,
+            "location": "Nashville",
+            "image_path": "products/leatherkit.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 84,
+        "fields": {
+            "name": "Classic Literature Box Set",
+            "customer_id": 7,
+            "price": 65.00,
+            "description": "Collection of 10 classic novels with beautiful hardcover bindings",
+            "quantity": 7,
+            "created_date": "2024-03-22",
+            "category_id": 8,
+            "location": "Chicago",
+            "image_path": "products/classicbooks.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 85,
+        "fields": {
+            "name": "Paper Quilling Kit",
+            "customer_id": 7,
+            "price": 19.99,
+            "description": "Complete kit for creating decorative paper art with tools and supplies",
+            "quantity": 25,
+            "created_date": "2024-03-20",
+            "category_id": 4,
+            "location": "Seattle",
+            "image_path": "products/quillingkit.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 86,
+        "fields": {
+            "name": "Power Drill",
+            "customer_id": 7,
+            "price": 89.99,
+            "description": "18V cordless drill with variable speed and LED light",
+            "quantity": 15,
+            "created_date": "2024-04-01",
+            "category_id": 1,
+            "location": "Nashville",
+            "image_path": "products/powerdrill.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 87,
+        "fields": {
+            "name": "Car Seat Covers",
+            "customer_id": 7,
+            "price": 35.50,
+            "description": "Universal fit waterproof seat covers for cars and SUVs",
+            "quantity": 24,
+            "created_date": "2024-03-28",
+            "category_id": 2,
+            "location": "Memphis",
+            "image_path": "products/carseatcovers.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 88,
+        "fields": {
+            "name": "Bluetooth Headphones",
+            "customer_id": 7,
+            "price": 129.99,
+            "description": "Noise-cancelling wireless headphones with 30-hour battery life",
+            "quantity": 18,
+            "created_date": "2024-04-02",
+            "category_id": 3,
+            "location": "Seattle",
+            "image_path": "products/bluetoothheadphones.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 89,
+        "fields": {
+            "name": "Winter Jacket",
+            "customer_id": 7,
+            "price": 79.99,
+            "description": "Insulated waterproof jacket with removable hood",
+            "quantity": 12,
+            "created_date": "2024-03-18",
+            "category_id": 5,
+            "location": "Chicago",
+            "image_path": "products/winterjacket.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 90,
+        "fields": {
+            "name": "Board Game",
+            "customer_id": 7,
+            "price": 45.99,
+            "description": "Strategy board game for 2-5 players, ages 10+",
+            "quantity": 20,
+            "created_date": "2024-04-05",
+            "category_id": 6,
+            "location": "Denver",
+            "image_path": "products/boardgame2.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 91,
+        "fields": {
+            "name": "Coffee Maker",
+            "customer_id": 7,
+            "price": 69.95,
+            "description": "Programmable 12-cup coffee maker with auto shut-off",
+            "quantity": 16,
+            "created_date": "2024-03-25",
+            "category_id": 7,
+            "location": "Atlanta",
+            "image_path": "products/coffeemaker.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 92,
+        "fields": {
+            "name": "Tennis Racket",
+            "customer_id": 7,
+            "price": 89.99,
+            "description": "Lightweight professional tennis racket with carrying case",
+            "quantity": 10,
+            "created_date": "2024-04-08",
+            "category_id": 9,
+            "location": "Miami",
+            "image_path": "products/tennisracket.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 93,
+        "fields": {
+            "name": "Essential Oils Set",
+            "customer_id": 7,
+            "price": 29.95,
+            "description": "Collection of 6 essential oils for aromatherapy",
+            "quantity": 22,
+            "created_date": "2024-03-12",
+            "category_id": 10,
+            "location": "Portland",
+            "image_path": "products/essentialoils.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 94,
+        "fields": {
+            "name": "Woodworking Chisel Set",
+            "customer_id": 7,
+            "price": 52.99,
+            "description": "Professional 6-piece wood carving chisel set with wooden case",
+            "quantity": 12,
+            "created_date": "2024-03-31",
+            "category_id": 1,
+            "location": "Seattle",
+            "image_path": "products/chiselset.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 95,
+        "fields": {
+            "name": "Dashboard Camera",
+            "customer_id": 7,
+            "price": 75.99,
+            "description": "1080p HD car dash camera with night vision and 32GB memory card",
+            "quantity": 14,
+            "created_date": "2024-04-03",
+            "category_id": 2,
+            "location": "Los Angeles",
+            "image_path": "products/dashcam.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 96,
+        "fields": {
+            "name": "Wireless Earbuds",
+            "customer_id": 7,
+            "price": 49.99,
+            "description": "Bluetooth 5.0 wireless earbuds with charging case",
+            "quantity": 30,
+            "created_date": "2024-03-19",
+            "category_id": 3,
+            "location": "Boston",
+            "image_path": "products/wirelessearbuds.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 97,
+        "fields": {
+            "name": "Recipe Journal",
+            "customer_id": 7,
+            "price": 17.95,
+            "description": "Hardcover blank recipe book with sections for ingredients and instructions",
+            "quantity": 25,
+            "created_date": "2024-03-27",
+            "category_id": 8,
+            "location": "New Orleans",
+            "image_path": "products/recipejournal.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 98,
+        "fields": {
+            "name": "Crossword Puzzle Book Collection",
+            "customer_id": 7,
+            "price": 14.99,
+            "description": "Set of 3 challenging crossword puzzle books with varying difficulty levels",
+            "quantity": 35,
+            "created_date": "2024-04-05",
+            "category_id": 8,
+            "location": "Phoenix",
+            "image_path": "products/crosswordbooks.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 99,
+        "fields": {
+            "name": "Stained Glass Kit",
+            "customer_id": 7,
+            "price": 64.99,
+            "description": "Complete beginner's stained glass crafting kit with tools and materials",
+            "quantity": 8,
+            "created_date": "2024-03-15",
+            "category_id": 4,
+            "location": "Portland",
+            "image_path": "products/stainedglasskit.jpg"
+        }
+    },
+    {
+        "model": "bangazonapi.product",
+        "pk": 100,
+        "fields": {
+            "name": "Travel Journal",
+            "customer_id": 7,
+            "price": 22.50,
+            "description": "Leather-bound travel journal with world map and pockets for mementos",
+            "quantity": 20,
+            "created_date": "2024-04-07",
+            "category_id": 8,
+            "location": "San Francisco",
+            "image_path": "products/traveljournal.jpg"
+        }
+    }
     
 ]

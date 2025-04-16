@@ -1,3 +1,5 @@
+from rest_framework.decorators import action
+from .product import Product
 """
    Author: Daniel Krusch
    Purpose: To convert product category data to json
@@ -22,8 +24,8 @@ class ProductCategorySerializer(serializers.HyperlinkedModelSerializer):
             view_name='productcategory',
             lookup_field='id'
         )
-        fields = ('id', 'url', 'name')
-
+        fields = ('id', 'url', 'name', 'last_5')
+        depth = 3
 
 class ProductCategories(ViewSet):
     """Categories for products"""
@@ -64,3 +66,5 @@ class ProductCategories(ViewSet):
         serializer = ProductCategorySerializer(
             product_category, many=True, context={'request': request})
         return Response(serializer.data)
+
+    
