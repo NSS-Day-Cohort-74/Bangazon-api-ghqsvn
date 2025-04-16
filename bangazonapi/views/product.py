@@ -385,6 +385,7 @@ class Products(ViewSet):
                 products, many=True
             )
             locations = set(product['location'] for product in product_serializer.data)
+            
             return Response({"no_filter": False,"locations":locations,"products": product_serializer.data}, status=status.HTTP_200_OK)
 
     @action(methods=["post"], detail=True)
