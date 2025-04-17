@@ -353,6 +353,7 @@ class Profile(ViewSet):
 
         # Gets customer acting as seller to be favorited
         seller = Customer.objects.get(pk=int(request.data["store_id"]))
+        
 
         try:
             # Does the relationship between these two customers already exist?
@@ -535,6 +536,14 @@ class ProfileSerializer(serializers.ModelSerializer):
             return False
 
     liked_products = serializers.SerializerMethodField()
+    is_admin = serializers.SerializerMethodField()
+
+    def get_is_admin(self, obj):
+        # Check if the user is an admin
+        if obj.user.is_staff:
+            return True
+        else:
+            return False
 
     def get_favorites(self, obj):
         # Finds the customer who is making the request for their profile
