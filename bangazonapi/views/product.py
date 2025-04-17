@@ -21,6 +21,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     is_liked = serializers.SerializerMethodField()
     avg_rating = serializers.SerializerMethodField()
+    likes = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -38,6 +39,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "can_be_rated",
             "ratings",
             "is_liked",
+            "likes"
         )
         depth = 4
 
@@ -47,6 +49,13 @@ class ProductSerializer(serializers.ModelSerializer):
             return obj.is_liked(request, obj.id)
         return False
 
+    def get_likes(self, obj):
+        # Filters product-likes relationships based on product primary key
+        likes = Like.objects.filter(product=obj.id)
+
+        # Gets the length of the list containing all likes associated with this product
+        return len(likes)
+    
     def get_avg_rating(self, obj):
         return obj.avg_rating
 
