@@ -330,22 +330,22 @@ class Profile(ViewSet):
             favorites, many=True, context={"request": request}
         )
         return Response(serializer.data)
-    
+
     @action(methods=["get", "post"], detail=False)
     def favorite(self, request):
         """
         Endpoint responsible for creating new customer-to-store relationships
         Args:
-            request (dict): The request body sent from the client containing data required for 
-            creating these relationships. 
+            request (dict): The request body sent from the client containing data required for
+            creating these relationships.
             pk (integer): The primary key used to find a unique collection of data.
             In this case, we are searching for the unique id of a customer acting as a seller.
 
             Defaults to None.
 
         Returns:
-            Response Message and Status Code: Used to enlighten the user about the status of the 
-            favoriting process, whether it succeeded or failed. 
+            Response Message and Status Code: Used to enlighten the user about the status of the
+            favoriting process, whether it succeeded or failed.
         """
 
         # Gets customer making request
@@ -353,15 +353,19 @@ class Profile(ViewSet):
 
         # Gets customer acting as seller to be favorited
         seller = Customer.objects.get(pk=int(request.data["store_id"]))
-        
 
         try:
             # Does the relationship between these two customers already exist?
-            existing_relationship = Favorite.objects.filter(customer=favoring_customer, seller=seller).exists()
-            
+            existing_relationship = Favorite.objects.filter(
+                customer=favoring_customer, seller=seller
+            ).exists()
+
             if existing_relationship:
-                return Response("Failure!: This relationship already exists", status=status.HTTP_409_CONFLICT)
-            
+                return Response(
+                    "Failure!: This relationship already exists",
+                    status=status.HTTP_409_CONFLICT,
+                )
+
             # Creates a new instance of a favorite object, this will hold data necessary for creating relationships
             favorite_relationship = Favorite()
 
@@ -375,10 +379,16 @@ class Profile(ViewSet):
             favorite_relationship.save()
 
             # Return a response to the client notifying them of a successful creation process
-            return Response("Success!: You have successfully favorited this store!", status=status.HTTP_201_CREATED)
+            return Response(
+                "Success!: You have successfully favorited this store!",
+                status=status.HTTP_201_CREATED,
+            )
         except Exception as ex:
-        # Return a response to the client notifying them of a failure during the creation process
-            return Response(f"Failure!: There was failure creating this relationship: {ex.args[0]}", status=status.HTTP_400_BAD_REQUEST)
+            # Return a response to the client notifying them of a failure during the creation process
+            return Response(
+                f"Failure!: There was failure creating this relationship: {ex.args[0]}",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     @action(methods=["post", "get"], detail=False)
     def store(self, request):
@@ -505,6 +515,14 @@ class ProfileSerializer(serializers.ModelSerializer):
     recommended = RecommenderSerializer(many=True)
     store = serializers.SerializerMethodField()
     favorites = serializers.SerializerMethodField()
+    is_admin = serializers.SerializerMethodField()
+
+    def get_is_admin(self, obj):
+        # Check if the user is an admin
+        if obj.user.is_staff:
+            return True
+        else:
+            return False
 
     def get_favorites(self, obj):
         # Finds the customer who is making the request for their profile
@@ -514,15 +532,16 @@ class ProfileSerializer(serializers.ModelSerializer):
             favorites = Favorite.objects.filter(customer=customer)
 
             # Serialize the list of this customer's favorite stores
-            serializer = FavoriteSerializer(favorites, many=True, context={"request": self.context["request"]})
+            serializer = FavoriteSerializer(
+                favorites, many=True, context={"request": self.context["request"]}
+            )
 
             # Return the serialized list to the parent serializer.
             return serializer.data
         # If a customer does not any favorite stores, this field will be an empty initialized list
         except Exception as ex:
             # This is exception will only be thrown if there is a major error in the serialization process
-            return f'There has been an issue serializing this data: {ex.args[0]}'
-            
+            return f"There has been an issue serializing this data: {ex.args[0]}"
 
     def get_store(self, pbj):
         store = {}
@@ -545,6 +564,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "recommended",
             "store",
             "favorites",
+            "is_admin",
         )
         depth = 1
 
