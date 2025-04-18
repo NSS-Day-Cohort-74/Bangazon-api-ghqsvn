@@ -17,6 +17,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.parsers import MultiPartParser, FormParser
 from bangazonapi.views.productcategory import ProductCategorySerializer
 
+
 class ProductSerializer(serializers.ModelSerializer):
     """JSON serializer for products"""
 
@@ -362,31 +363,52 @@ class Products(ViewSet):
         if product_location is not None:
             products = products.filter(location=product_location)
 
-        # Has the query been filtered? Checks all possible filtering conditions. 
-        if category_id is None and quantity is None and order is None and direction is None and name is None and number_sold is None and min_price is None and product_location is None:
+        # Has the query been filtered? Checks all possible filtering conditions.
+        if (
+            category_id is None
+            and quantity is None
+            and order is None
+            and direction is None
+            and name is None
+            and number_sold is None
+            and min_price is None
+            and product_location is None
+        ):
 
             # Gets all categories, expanded with the last five products in that category
             categories = ProductCategory.objects.all()
-            
+
             # Serializes the categories list with the products expansion
-            serializer = ProductCategorySerializer(categories, many=True, context={"request":request})
-            product_serializer = ProductSerializer(
-                products, many=True
+            serializer = ProductCategorySerializer(
+                categories, many=True, context={"request": request}
             )
+            product_serializer = ProductSerializer(products, many=True)
 
             # A collection of unique locations
-            locations = set(product['location'] for product in product_serializer.data)
+            locations = set(product["location"] for product in product_serializer.data)
 
             # Sends a custom response to the client with a key representing if the response was filtered or not
-            return Response({"no_filter": True, "locations":locations,"products": serializer.data}, status=status.HTTP_200_OK)
+            return Response(
+                {
+                    "no_filter": True,
+                    "locations": locations,
+                    "products": serializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
 
         else:
-            product_serializer = ProductSerializer(
-                products, many=True
+            product_serializer = ProductSerializer(products, many=True)
+            locations = set(product["location"] for product in product_serializer.data)
+
+            return Response(
+                {
+                    "no_filter": False,
+                    "locations": locations,
+                    "products": product_serializer.data,
+                },
+                status=status.HTTP_200_OK,
             )
-            locations = set(product['location'] for product in product_serializer.data)
-            
-            return Response({"no_filter": False,"locations":locations,"products": product_serializer.data}, status=status.HTTP_200_OK)
 
     @action(methods=["post"], detail=True)
     def recommend(self, request, pk=None):
@@ -432,8 +454,9 @@ class Products(ViewSet):
         if request.method == "POST":
             pass
 
-    @action(methods=["post", "delete"], detail=True)
-    def like(self, request, pk=True):
+    @action(methods=["post"], detail=True)
+    def like(self, request, pk=None):
+        """Like a product"""
 
         try:
             customer = Customer.objects.get(user=request.auth.user)
@@ -449,37 +472,22 @@ class Products(ViewSet):
             customer_liked_products = Like.objects.filter(
                 customer=customer, product=product
             )
-            if customer_liked_products.exists():
-                customer_liked_products.delete()
+
             customer_liked_products = Like.objects.filter(
                 customer=customer, product=product
             )
             if customer_liked_products.exists():
                 customer_liked_products.delete()
-                return Response("deleted", status=status.HTTP_204_NO_CONTENT)
+                return Response("deleted", status=status.HTTP_410_GONE)
 
             like = Like()
             like.customer = Customer.objects.filter(user=request.auth.user).first()
-            like.product = Product.objects.filter(pk=pk).first()
+            like.product = Product.objects.get(pk=pk)
             like.save()
             return Response("created", status=status.HTTP_201_CREATED)
 
         except Exception as ex:
             return Response({"error": ex}, status=status.HTTP_404_NOT_FOUND)
-
-    # @action(methods=["get"], detail=False)
-    # def liked(self, request):
-
-    #     products = Product.objects.all()
-
-    #     serializer = ProductSerializer(
-    #         products, many=True, context={"request": request}
-    #     )
-
-    #     response_data = serializer.data
-    #     filtered_data = [product for product in response_data if product["is_liked"]]
-
-    #     return Response(filtered_data, status=status.HTTP_200_OK)
 
     @action(methods=["post", "delete"], detail=True)
     def rate(self, request, pk=None):
