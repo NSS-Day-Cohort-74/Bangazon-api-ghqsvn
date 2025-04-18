@@ -159,7 +159,7 @@ class Products(ViewSet):
         customer = Customer.objects.get(user=request.auth.user)
         new_product.customer = customer
 
-        product_category = ProductCategory.objects.get(pk=request.data["category_id"])
+        product_category = ProductCategory.objects.get(pk=request.data["categoryId"])
         new_product.category = product_category
 
         if "image_path" in request.data:
