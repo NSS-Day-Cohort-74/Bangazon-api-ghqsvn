@@ -353,18 +353,19 @@ class Profile(ViewSet):
 
         # Gets customer acting as seller to be favorited
         seller = Customer.objects.get(pk=int(request.data["store_id"]))
-        
 
         try:
             # Does the relationship between these two customers already exist?
             existing_relationship = Favorite.objects.filter(
                 customer=favoring_customer, seller=seller
-            ).exists()
+            )
 
-            if existing_relationship:
+            if existing_relationship.exists():
+                # If the relationship already exists, delete it
+                existing_relationship.delete()
                 return Response(
-                    "Failure!: This relationship already exists",
-                    status=status.HTTP_409_CONFLICT,
+                    "Unfavorited",
+                    status=status.HTTP_410_GONE,
                 )
 
             # Creates a new instance of a favorite object, this will hold data necessary for creating relationships
@@ -571,7 +572,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         store["id"] = pbj.id
 
         return store
-
 
     def get_liked_products(self, obj):
         # Finds the customer who is making the request for their profile
