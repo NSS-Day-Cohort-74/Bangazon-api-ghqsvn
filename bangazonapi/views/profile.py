@@ -488,6 +488,7 @@ class ProfileProductSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "image_path",
+            "price",
         )
 
 
