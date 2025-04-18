@@ -6,6 +6,7 @@ import base64
 from django.core.files.base import ContentFile
 from django.http import HttpResponseServerError
 from django.conf import settings
+from django.conf import settings
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
@@ -15,6 +16,7 @@ from bangazonapi.views.customer import CustomerSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.parsers import MultiPartParser, FormParser
 from bangazonapi.views.productcategory import ProductCategorySerializer
+
 
 class ProductSerializer(serializers.ModelSerializer):
     """JSON serializer for products"""
@@ -55,7 +57,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
         # Gets the length of the list containing all likes associated with this product
         return len(likes)
-    
+
     def get_avg_rating(self, obj):
         return obj.avg_rating
 
@@ -361,31 +363,52 @@ class Products(ViewSet):
         if product_location is not None:
             products = products.filter(location=product_location)
 
-        # Has the query been filtered? Checks all possible filtering conditions. 
-        if category_id is None and quantity is None and order is None and direction is None and name is None and number_sold is None and min_price is None and product_location is None:
+        # Has the query been filtered? Checks all possible filtering conditions.
+        if (
+            category_id is None
+            and quantity is None
+            and order is None
+            and direction is None
+            and name is None
+            and number_sold is None
+            and min_price is None
+            and product_location is None
+        ):
 
             # Gets all categories, expanded with the last five products in that category
             categories = ProductCategory.objects.all()
-            
+
             # Serializes the categories list with the products expansion
-            serializer = ProductCategorySerializer(categories, many=True, context={"request":request})
-            product_serializer = ProductSerializer(
-                products, many=True
+            serializer = ProductCategorySerializer(
+                categories, many=True, context={"request": request}
             )
+            product_serializer = ProductSerializer(products, many=True)
 
             # A collection of unique locations
-            locations = set(product['location'] for product in product_serializer.data)
+            locations = set(product["location"] for product in product_serializer.data)
 
             # Sends a custom response to the client with a key representing if the response was filtered or not
-            return Response({"no_filter": True, "locations":locations,"products": serializer.data}, status=status.HTTP_200_OK)
+            return Response(
+                {
+                    "no_filter": True,
+                    "locations": locations,
+                    "products": serializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
 
         else:
-            product_serializer = ProductSerializer(
-                products, many=True
+            product_serializer = ProductSerializer(products, many=True)
+            locations = set(product["location"] for product in product_serializer.data)
+
+            return Response(
+                {
+                    "no_filter": False,
+                    "locations": locations,
+                    "products": product_serializer.data,
+                },
+                status=status.HTTP_200_OK,
             )
-            locations = set(product['location'] for product in product_serializer.data)
-            
-            return Response({"no_filter": False,"locations":locations,"products": product_serializer.data}, status=status.HTTP_200_OK)
 
     @action(methods=["post"], detail=True)
     def recommend(self, request, pk=None):
@@ -431,8 +454,9 @@ class Products(ViewSet):
         if request.method == "POST":
             pass
 
-    @action(methods=["post", "delete"], detail=True)
-    def like(self, request, pk=True):
+    @action(methods=["post"], detail=True)
+    def like(self, request, pk=None):
+        """Like a product"""
 
         try:
             customer = Customer.objects.get(user=request.auth.user)
@@ -440,14 +464,25 @@ class Products(ViewSet):
         except Product.DoesNotExist as Ex:
             return Response(f"Details: {ex.args[0]}", status=status.HTTP_404_NOT_FOUND)
         try:
-            customer_liked_products =  Like.objects.filter(customer=customer, product=product)
+            customer = Customer.objects.get(user=request.auth.user)
+            product = Product.objects.get(pk=pk)
+        except Product.DoesNotExist as Ex:
+            return Response(f"Details: {ex.args[0]}", status=status.HTTP_404_NOT_FOUND)
+        try:
+            customer_liked_products = Like.objects.filter(
+                customer=customer, product=product
+            )
+
+            customer_liked_products = Like.objects.filter(
+                customer=customer, product=product
+            )
             if customer_liked_products.exists():
                 customer_liked_products.delete()
-                return Response("deleted", status=status.HTTP_204_NO_CONTENT)
-            
+                return Response("deleted", status=status.HTTP_410_GONE)
+
             like = Like()
             like.customer = Customer.objects.filter(user=request.auth.user).first()
-            like.product = Product.objects.filter(pk=pk).first()
+            like.product = Product.objects.get(pk=pk)
             like.save()
             return Response("created", status=status.HTTP_201_CREATED)
 

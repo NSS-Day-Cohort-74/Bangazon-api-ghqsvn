@@ -1,18 +1,53 @@
-from django.contrib.auth.decorators import login_required
+from rest_framework.viewsets import ViewSet
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAdminUser
+from rest_framework.authentication import TokenAuthentication, BaseAuthentication
 from bangazonapi.models.product import Product
+from rest_framework import serializers
 from bangazonapi.views import ProductSerializer
 from bangazonapi.models.order import Order
-from bangazonapi.models.orderproduct import OrderProduct
-from django.shortcuts import render
 from django.db.models import Sum, F
-from django.urls import reverse
-from bangazonapi.models.favorite import Favorite
-from bangazonapi.models.customer import Customer
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from bangazonapi.models import Report, Customer, Favorite
 
 
-@login_required(login_url="reports_login")
-def report(request):
-    if request.path == "/reports/expensiveproducts":
+class ReportAuthentication(BaseAuthentication):
+    def authenticate(self, request):
+        # get the token from the request parameters
+        token = request.query_params.get("token")
+        if token:
+            try:
+                user = User.objects.get(auth_token=token)
+                return (user, token)
+            except User.DoesNotExist:
+                return None
+
+
+class ReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Report
+        fields = ("id", "title", "description", "url")
+        read_only_fields = ("id",)
+        depth = 1
+
+
+class ReportView(ViewSet):
+    authentication_classes = [ReportAuthentication]
+    permission_classes = [IsAdminUser]
+
+    def list(self, request):
+        report_urls = Report.objects.all()
+        serialized_reports = ReportSerializer(
+            report_urls, many=True, context={"request": request}
+        )
+        return Response(serialized_reports.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=["get"], url_path="expensiveproducts")
+    def expensive_products(self, request):
+        # Handle expensive products report
         products = Product.objects.filter(price__gte=1000).order_by("price")[:20]
         serialized_products = ProductSerializer(products, many=True)
         context = {
@@ -22,7 +57,9 @@ def report(request):
         }
         return render(request, "report.html", context)
 
-    elif request.path == "/reports/inexpensiveproducts":
+    @action(detail=False, methods=["get"], url_path="inexpensiveproducts")
+    def inexpensive_products(self, request):
+        # Handle inexpensive products report
         products = Product.objects.filter(price__lte=999).order_by("price")
         serialized_products = ProductSerializer(products, many=True)
         context = {
@@ -32,25 +69,17 @@ def report(request):
         }
         return render(request, "report.html", context)
 
-    elif "/reports/order" in request.path:
-
-        # Check the URL parameter 'status'
-        status = request.GET.get(
-            "status", "completed"
-        )  # Default to 'completed' if not specified
-
-        # Base queryset
+    @action(detail=False, methods=["get"], url_path="orders")
+    def orders_report(self, request):
+        # Handle orders report
+        status = request.GET.get("status", "completed")
         orders_queryset = Order.objects.all()
 
-        # Apply filters based on status parameter
         if status == "incomplete":
-            # Filter for incomplete orders (payment_type_id is null)
             orders_queryset = orders_queryset.filter(payment_type_id__isnull=True)
-        else:  # 'completed' or any other value
-            # Filter for completed orders (payment_type_id is not null)
+        else:
             orders_queryset = orders_queryset.filter(payment_type_id__isnull=False)
 
-        # Continue with annotating and values as before
         completed_orders = orders_queryset.annotate(
             total_cost=Sum(F("lineitems__product__price")),
             customer_name=F("customer__user__first_name"),
@@ -64,44 +93,44 @@ def report(request):
         }
         return render(request, "orderreport.html", context)
 
+    @action(detail=False, methods=["get"], url_path="favoritesellers")
+    def favorite_sellers_report(self, request):
+        customer_id = request.GET.get("customer")
 
-def favorite_sellers_report(request):
-    customer_id = request.GET.get("customer")
+        if not customer_id:
+            return render(
+                request,
+                "favoritesreport.html",
+                {
+                    "title": "Favorite Sellers Report",
+                    "heading": "Missing Customer ID",
+                    "error": "You must include a customer ID in the URL (e.g., ?customer=1).",
+                },
+            )
 
-    if not customer_id:
-        return render(
-            request,
-            "favoritesreport.html",
-            {
-                "title": "Favorite Sellers Report",
-                "heading": "Missing Customer ID",
-                "error": "You must include a customer ID in the URL (e.g., ?customer=1).",
-            },
-        )
+        try:
+            customer = Customer.objects.select_related("user").get(pk=customer_id)
+        except Customer.DoesNotExist:
+            return render(
+                request,
+                "report.html",
+                {
+                    "title": "Favorite Sellers Report",
+                    "heading": "Customer Not Found",
+                    "error": f"No customer found with ID {customer_id}.",
+                },
+            )
 
-    try:
-        customer = Customer.objects.select_related("user").get(pk=customer_id)
-    except Customer.DoesNotExist:
-        return render(
-            request,
-            "report.html",
-            {
-                "title": "Favorite Sellers Report",
-                "heading": "Customer Not Found",
-                "error": f"No customer found with ID {customer_id}.",
-            },
-        )
+        # Get the favorite sellers (which are also customers)
+        favorites = Favorite.objects.filter(customer_id=customer_id).select_related(
+            "seller__user"
+        )  # ensure we prefetch user data
+        sellers = [favorite.seller for favorite in favorites]
 
-    # Get the favorite sellers (which are also customers)
-    favorites = Favorite.objects.filter(customer_id=customer_id).select_related(
-        "seller__user"
-    )  # ensure we prefetch user data
-    sellers = [favorite.seller for favorite in favorites]
+        context = {
+            "title": "Favorite Sellers",
+            "heading": f"Favorite Sellers of {customer.user.first_name} {customer.user.last_name}",
+            "sellers": sellers,
+        }
 
-    context = {
-        "title": "Favorite Sellers",
-        "heading": f"Favorite Sellers of {customer.user.first_name} {customer.user.last_name}",
-        "sellers": sellers,
-    }
-
-    return render(request, "favoritesreport.html", context)
+        return render(request, "favoritesreport.html", context)
