@@ -42,6 +42,7 @@ router.register(r"reports", ReportView, "order_report")
 urlpatterns = [
     path("", include(router.urls)),
     path("login", login_user, name="login"),
+    path("register", register_user, name="register"),
     path("admin/", admin.site.urls),
     path("api-token-auth", obtain_auth_token),
     path("api-auth", include("rest_framework.urls", namespace="rest_framework")),
