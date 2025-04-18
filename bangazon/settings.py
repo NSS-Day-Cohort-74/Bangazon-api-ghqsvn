@@ -130,5 +130,5 @@ USE_L10N = True
 USE_TZ = True
 APPEND_SLASH = False
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
