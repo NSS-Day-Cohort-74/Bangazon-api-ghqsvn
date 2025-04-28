@@ -23,6 +23,9 @@ lazy-object-proxy = "^1.10.0"
 mccabe = "^0.7.0"
 pycodestyle = "^2.11.1"
 six = "^1.16.0"
+gunicorn = "^23.0.0"
+dj-database-url = "^2.3.0"
+psycopg2-binary = "^2.9.10"
 
 
 [build-system]
